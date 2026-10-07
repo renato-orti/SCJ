@@ -1,0 +1,96 @@
+# =================================================================================================
+# Module:    BTD - Single Case Comparison with Bayes methodology
+# File:      btd.a.yaml (UI Configuration)
+# Purpose:   Graphical user interface for executing bayesian single-case deficit tests
+#            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R., & Garthwaite, P. H. (2007). Comparison of a single case to a control or normative
+#     sample in neuropsychology: Development of a Bayesian approach. Cognitive Neuropsychology,
+#     24(4), 343-372.
+#     https://doi.org/10.1080/02643290701290146
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  btd
+title: BTD
+menuGroup: SCJ
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: case                 # Case Score (namely "case" in singcar::BTD)
+      title: Case Score
+      type: Number
+      default: 0
+      
+    - name: controls             # Controls Score (namely "controls" in singcar::BTD)
+      title: Controls Mean
+      type: Number
+      default: 0
+      
+    - name: sd                   # SD of controls Score (namely "sd" in singcar::BTD)
+      title: Controls SD
+      type: Number
+      default: 0
+      
+    - name: sample_size          # Sample size of controls (namely "sample_size" in singcar::BTD)
+      title: Controls Sample Size
+      type: Integer
+      default: 0
+      
+    - name: alternative          # Alternative hypothesis (namely "alternative" in singcar::BTD)
+      title: Hypothesis
+      type: List
+      options:
+       - name: "two.sided"
+         title: "Two Sided (Case ≠ Control)"
+       - name: "less"
+         title: "Less (Case < Control)"
+       - name: "greater"
+         title: "Greater (Case > Control)" 
+      default: "less"
+      
+    - name: credible_interval    # Credibile interval
+      title: Z-CC Credible Interval (CrI)
+      type: Bool
+      default: true
+      
+    - name: credible_level       # Level of credibility (namely "int_level" in singcar::BTD)   
+      title: Credible level interval (%)
+      type: Integer
+      default: 95
+      
+    - name: iter                 # Number of iterations (namely "iter" in singcar::BTD)
+      title: Iterations
+      type: Integer
+      default: 1000
+      min: 1
+      max: 10000000
+      
+    - name: show_plot            # Command for graph output
+      title: Show plot
+      type: Bool
+      default: false
+      
+    - name: show_txt_output      # Command for text output   
+      title: Text output
+      type: Bool
+      default: false

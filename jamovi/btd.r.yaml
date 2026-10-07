@@ -1,0 +1,104 @@
+# =================================================================================================
+# Module:    BTD - Single Case Comparison with Bayes methodology
+# File:      bdt.r.yaml (Results Configuration)
+# Purpose:   Output layout and tables definition for executing bayesian single-case 
+#            deficit tests unsing the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R., & Garthwaite, P. H. (2007). Comparison of a single case to a control or normative
+#     sample in neuropsychology: Development of a Bayesian approach. Cognitive Neuropsychology,
+#     24(4), 343-372.
+#     https://doi.org/10.1080/02643290701290146
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  btd
+title: BTD
+jrs:   '1.1'
+
+items:
+    - name: resultsTable
+      title: BTD - Single Case Comparison with Bayes methodology
+      type: Table
+      rows: 1
+      clearWith:
+          - case
+          - controls
+          - sd
+          - sample_size
+          - alternative
+          - iter
+          
+      columns:
+          - name: iter
+            title: "Iterations"
+            type: integer
+            
+          - name: alternative
+            title: "Hypothesis"
+            type: text
+            format: text
+            
+          - name: df
+            title: "df"
+            type: integer
+            
+          - name: p_val
+            title: "p"
+            type: number
+            format: zto, pvalue
+            
+          - name: z_cc
+            title: "Z-CC"
+            type: number
+            format: dp:2
+            
+          - name: point_estim
+            title: "Abnormality (%)"
+            type: number
+            format: dp:2
+            
+          - name: credible_interval
+            title: "CrI"
+            type: text
+            visible: (credible_interval)
+            
+          - name: ci_lower
+            title: "Lower CrI"
+            type: number
+            visible: (credible_interval)
+            
+          - name: ci_upper
+            title: "Upper CrI"
+            type: number
+            visible: (credible_interval)
+          
+    - name: plot
+      title: Case vs Controls Distribution
+      type: Image
+      width: 500
+      height: 350
+      renderFun: .plot
+      visible: (show_plot)
+      
+    - name:  textOutput
+      title: BTD - Text Output
+      type:  Preformatted
+      visible: (show_txt_output)

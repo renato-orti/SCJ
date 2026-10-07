@@ -1,0 +1,104 @@
+# =================================================================================================
+# Module:    TD - Single Case Comparison
+# File:      td.r.yaml (Results Configuration)
+# Purpose:   Output layout and tables definition for executing single-case 
+#            deficit tests unsing the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R., & Howell, D. C. (1998). Comparing an Individual's Test 
+#     Score Against Norms Derived from Small Samples. The Clinical 
+#     Neuropsychologist, 12(4), 482-486.
+#     https://doi.org/10.1076/clin.12.4.482.7241
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  td
+title: TD
+jrs:   '1.1'
+
+items:
+    - name: resultsTable
+      title: TD - Single Case Comparison
+      type: Table
+      rows: 1
+      clearWith:
+          - case
+          - controls
+          - sd
+          - sample_size
+          - alternative
+          
+      columns:
+          - name: alternative
+            title: "Hypothesis"
+            type: text
+            format: text
+            
+          - name: df
+            title: "df"
+            type: integer
+            
+          - name: t_val
+            title: "t"
+            type: number
+            format: dp:2
+            
+          - name: p_val
+            title: "p"
+            type: number
+            format: zto, pvalue
+            
+          - name: z_cc
+            title: "Z-CC"
+            type: number
+            format: dp:2
+            
+          - name: point_estim
+            title: "Abnormality (%)"
+            type: number
+            format: dp:2
+          
+          - name: ci_interval
+            title: "CI"
+            type: text
+            visible: (confidence_interval)
+            
+          - name: ci_lower
+            title: "Lower CI"
+            type: number
+            visible: (confidence_interval)
+            
+          - name: ci_upper
+            title: "Upper CI"
+            type: number
+            visible: (confidence_interval)
+      
+    - name: plot
+      title: Case vs Controls Distribution
+      type: Image
+      width: 500
+      height: 350
+      renderFun: .plot
+      visible: (show_plot)
+      
+    - name:  txtOutput
+      title: TD - Text Output
+      type:  Preformatted
+      visible: (show_txt_output)

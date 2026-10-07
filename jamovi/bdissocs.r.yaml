@@ -1,0 +1,144 @@
+# =================================================================================================
+# Module:    BDISSOCS - Single Case Comparison
+# File:      bdissocs.r.yaml (Results Configuration)
+# Purpose:   Graphical user interface for executing single-case deficit tests
+#            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R. & Garthwaite, P.H. (2005). Testing for suspected impairments and dissociations 
+#     in single-case studies in neuropsychology: Evaluation of alternatives using Monte Carlo 
+#     simulations and revised tests for dissociations”.  Neuropsychology, 19, 318-331.
+#     https://doi.org/10.1037/0894-4105.19.3.318
+#
+#   - Crawford, J. R., & Garthwaite, P. H. (2007). Comparison of a single case 
+#     to a control or normative sample in neuropsychology: Development of a Bayesian approach. 
+#     Cognitive Neuropsychology, 24(4), 343-372.
+#     https://doi.org/10.1080/02643290701290146
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  bdissocs
+title: B-DISSOCS
+jrs:   '1.1'
+
+items:
+    - name: classTable
+      title: Clinical Classification
+      type: Table
+      rows: 1
+      clearWith:
+          - case_a
+          - case_b
+          - controls_a
+          - controls_b
+          - sd_a
+          - sd_b
+          - sample_size
+          - correlation
+          - credible_level
+          - iter
+          - unstandardised
+
+      columns:
+          - name: score_a
+            title: "Task A"
+            type: text
+    
+          - name: score_b
+            title: "Task B"
+            type: text
+    
+          - name: dissoc_type
+            title: "Dissociation Profile"
+            type: text
+    
+    - name: resultsTable
+      title: Statistical Results (TD & BSDT)
+      type: Table
+      rows: 1
+      clearWith:
+          - case_a
+          - case_b
+          - controls_a
+          - controls_b
+          - sd_a
+          - sd_b
+          - sample_size
+          - correlation
+          - credible_level
+          - iter
+          - unstandardised
+      
+      columns:
+          - name: iter
+            title: "Iterations"
+            type: integer
+                      
+          - name: df
+            title: "df"
+            type: integer
+            
+          - name: p_val_a
+            title: "p (Task A)"
+            type: number
+            format: zto, pvalue
+          
+          - name: z_cc_a
+            title: "Z-CC (Task A)"
+            type: number
+            format: dp:2
+      
+          - name: p_val_b
+            title: "p (Task B)"
+            type: number
+            format: zto, pvalue
+
+          - name: z_cc_b
+            title: "Z-CC (Task B)"
+            type: number
+            format: dp:2
+        
+          - name: p_val_ab
+            title: "p (Task A - B)"
+            type: number
+            format: zto, pvalue
+
+          - name: z_dcc
+            title: "Z-DCC"
+            type: number
+            format: dp:2
+        
+          - name: point_estim
+            title: "Abnormality (%)"
+            type: number
+            format: dp:2
+        
+    - name: plot
+      title: Case vs Controls Difference of Scores
+      type: Image
+      width: 500
+      height: 350
+      renderFun: .plot
+      visible: (show_plot)
+      
+    - name: txtOutput
+      title: Detailed Text Output
+      type:  Preformatted
+      visible: (show_txt_output)

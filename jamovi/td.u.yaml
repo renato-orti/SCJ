@@ -1,0 +1,53 @@
+title: TD
+name: td
+jus: '3.0'
+stage: 0
+compilerMode: aggressive
+children:
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: case
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: controls
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: sd
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: sample_size
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: ComboBox
+        name: alternative
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: confidence_interval
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: confidence_level
+        format: number
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: show_plot
+      - type: CheckBox
+        name: show_txt_output

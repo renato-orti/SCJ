@@ -1,0 +1,89 @@
+# =================================================================================================
+# Module:    TD - Single Case Comparison
+# File:      td.a.yaml (UI Configuration)
+# Purpose:   Graphical user interface for executing single-case deficit tests
+#            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R., & Howell, D. C. (1998). Comparing an Individual's Test 
+#     Score Against Norms Derived from Small Samples. The Clinical 
+#     Neuropsychologist, 12(4), 482-486.
+#     https://doi.org/10.1076/clin.12.4.482.7241
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  td
+title: TD
+menuGroup: SCJ
+version: '1.0.0'
+jas: '1.2'
+
+options:
+    - name: case                 # Case Score (namely "case" in singcar::TD)
+      title: Case Score
+      type: Number
+      default: 0
+      
+    - name: controls             # Controls Score (namely "controls" in singcar::TD)
+      title: Controls Mean
+      type: Number
+      default: 0
+      
+    - name: sd                   # SD of controls Score (namely "sd" in singcar::TD)
+      title: Controls SD
+      type: Number
+      default: 0
+      
+    - name: sample_size          # Sample size of controls (namely "sample_size" in singcar::TD)
+      title: Controls Sample Size
+      type: Integer
+      default: 0
+      
+    - name: alternative          # Alternative hypothesis (namely "alternative" in singcar::TD)
+      title: Hypothesis
+      type: List
+      options:
+       - name: "two.sided"
+         title: "Two Sided (Case ≠ Control)"
+       - name: "less"
+         title: "Less (Case < Control)"
+       - name: "greater"
+         title: "Greater (Case > Control)" 
+      default: "less"
+       
+    - name: confidence_interval  # Confidence interval (namely "conf_int" in singcar::TD)
+      title: Standardized Case Score (Z-CC)
+      type: Bool
+      default: true
+      
+    - name: confidence_level     # Level of confidence (namely "conf_level" in singcar::TD)   
+      title: Confidence level (%)
+      type: Integer
+      default: 95
+      
+    - name: show_plot            # Command for graph output
+      title: Show plot
+      type: Bool
+      default: false
+    
+    - name: show_txt_output      # Command for text output   
+      title: Show text output
+      type: Bool
+      default: false

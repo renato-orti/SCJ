@@ -1,0 +1,19 @@
+Package: SCJ
+Type: Package
+Title: Single Case Jamovi (SCJ)
+Version: 1.0.0
+Author:
+  - Michela Possenti (ORCID - 0000-0001-8937-0611)
+  - Renato Orti (ORCID - 0000-0002-6856-7981)
+Maintainer:
+  Renato Orti <renato.orti@unipd.it>
+Description:
+    Single Case Jamovi (SCJ) is a Jamovi module for clinical
+    and experimental neuropsychology. It implements Frequentist
+    and Bayesian statistical methods (based on Crawford & Garthwaite's
+    methodology) to reliably compare single-case scores against 
+    small normative samples, utilizing the singcar R package.
+License: GPL-3.0
+Encoding: UTF-8
+LazyData: true
+Imports: jmvcore (>= 0.8.5), R6, singcar

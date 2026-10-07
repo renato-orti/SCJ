@@ -1,0 +1,68 @@
+---
+title: Single Case Jamovi (SCJ)
+name: SCJ
+version: 1.0.0
+jms: '1.0'
+authors:
+  - Michela Possenti
+  - Renato Orti
+maintainer: Renato Orti <renato.orti@unipd.it>
+date: '2026-10-06'
+type: R
+description: >-
+  Single Case Jamovi (SCJ) provides a zero-code graphical user interface for
+  clinical and experimental neuropsychology. It implements robust Frequentist
+  and Bayesian statistical methods (based on Crawford &  Garthwaite's
+  methodology) to reliably compare single-case scores  against small normative
+  samples, utilizing the singcar R package.
+analyses:
+  - title: TD
+    name: td
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Frequentist
+    menuTitle: TD
+    description: >-
+      Performs the Test of Deficit (TD) to reliably compare a single case's
+      score against a small normative sample using frequentist methodology 
+      (Crawford & Howell, 1998).
+  - title: RSDT
+    name: rsdt
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Frequentist
+    menuTitle: RSDT
+  - title: DISSOCS
+    name: dissocs
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Frequentist
+    menuTitle: DISSOCS
+  - title: BTD
+    name: btd
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Bayesian
+    menuTitle: BTD
+  - title: BSDT
+    name: bsdt
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Bayesian
+    menuTitle: BSDT
+  - title: B-DISSOCS
+    name: bdissocs
+    ns: SCJ
+    category: analyses
+    menuGroup: SCJ
+    menuSubgroup: Bayesian
+    menuTitle: B-DISSOCS
+usesNative: true
+minApp: 1.0.8
+
+...

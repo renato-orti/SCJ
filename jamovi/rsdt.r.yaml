@@ -1,0 +1,100 @@
+# =================================================================================================
+# Module:    RSDT - Single Case Comparison
+# File:      rsdt.r.yaml (Results Configuration)
+# Purpose:   Graphical user interface for executing single-case deficit tests
+#            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#     Crawford, J. R., & Garthwaite, P. H. (2005). Testing for Suspected Impairments and Dissociations
+#     in Single-Case Studies in Neuropsychology: Evaluation of Alternatives Using Monte Carlo
+#     Simulations and Revised Tests for Dissociations. Neuropsychology, 19(3), 318 - 331.
+#     https://doi.org/10.1037/0894-4105.19.3.318
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases 
+#     to small samples in R. Journal of Open Source Software, 6(68), 3887. 
+#     https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, 
+#            making single-case comparisons easily accessible for clinical 
+#            and experimental neuropsychology without compromising scientific rigor.
+# =================================================================================================
+---
+name:  rsdt
+title: RSDT
+jrs:   '1.1'
+
+items:
+    - name: resultsTable
+      title: Revised Standardised Difference Test (RSDT) - Single Case Comparison
+      type: Table
+      rows: 1
+      clearWith:
+          - case
+          - controls
+          - sd
+          - sample_size
+          - alternative
+          - correlation
+          
+      columns:
+          - name: alternative
+            title: "Hypothesis"
+            type: text
+            format: text
+            
+          - name: t_val
+            title: "t"
+            type: number
+            format: dp:2
+            
+          - name: df
+            title: "df"
+            type: integer
+            
+          - name: p_val
+            title: "p"
+            type: number
+            format: zto, pvalue
+            
+          - name: z_cc_a
+            title: "Z-CC Task A"
+            type: number
+            format: dp:2
+            
+          - name: z_cc_b
+            title: "Z-CC Task B"
+            type: number
+            format: dp:2
+            
+          - name: z_dcc
+            title: "Z-DCC"
+            type: number
+            format: dp:2
+            
+          - name: point_estim
+            title: "Abnormality (%)"
+            type: number
+            format: dp:2
+      
+    - name: plot
+      title: Case vs Controls Difference of Scores
+      type: Image
+      width: 500
+      height: 350
+      renderFun: .plot
+      visible: (show_plot)
+      
+    - name:  txtOutput
+      title: RSDT - Text Output
+      type:  Preformatted
+      visible: (show_txt_output)
