@@ -6,15 +6,15 @@ rsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            case_a = 0,
-            case_b = 0,
-            controls_a = 0,
-            controls_b = 0,
-            sd_a = 0,
-            sd_b = 0,
-            sample_size = 0,
-            correlation = 0,
-            alternative = "less",
+            case_a = 35,
+            case_b = 48,
+            controls_a = 50,
+            controls_b = 50,
+            sd_a = 10,
+            sd_b = 10,
+            sample_size = 20,
+            correlation = 0.5,
+            alternative = "two.sided",
             show_plot = FALSE,
             show_txt_output = FALSE, ...) {
 
@@ -27,35 +27,40 @@ rsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..case_a <- jmvcore::OptionNumber$new(
                 "case_a",
                 case_a,
-                default=0)
+                default=35)
             private$..case_b <- jmvcore::OptionNumber$new(
                 "case_b",
                 case_b,
-                default=0)
+                default=48)
             private$..controls_a <- jmvcore::OptionNumber$new(
                 "controls_a",
                 controls_a,
-                default=0)
+                default=50)
             private$..controls_b <- jmvcore::OptionNumber$new(
                 "controls_b",
                 controls_b,
-                default=0)
+                default=50)
             private$..sd_a <- jmvcore::OptionNumber$new(
                 "sd_a",
                 sd_a,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sd_b <- jmvcore::OptionNumber$new(
                 "sd_b",
                 sd_b,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sample_size <- jmvcore::OptionInteger$new(
                 "sample_size",
                 sample_size,
-                default=0)
+                default=20,
+                min=4)
             private$..correlation <- jmvcore::OptionNumber$new(
                 "correlation",
                 correlation,
-                default=0)
+                default=0.5,
+                min=-1,
+                max=1)
             private$..alternative <- jmvcore::OptionList$new(
                 "alternative",
                 alternative,
@@ -63,7 +68,7 @@ rsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "two.sided",
                     "less",
                     "greater"),
-                default="less")
+                default="two.sided")
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
@@ -124,30 +129,31 @@ rsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="RSDT")
+                title="Revised Standardised Difference Test",
+                refs=list(
+                    "singcar",
+                    "crawfordgarthwaite2005"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="resultsTable",
                 title="Revised Standardised Difference Test (RSDT) - Single Case Comparison",
                 rows=1,
                 clearWith=list(
-                    "case",
-                    "controls",
-                    "sd",
+                    "case_a",
+                    "case_b",
+                    "controls_a",
+                    "controls_b",
+                    "sd_a",
+                    "sd_b",
                     "sample_size",
-                    "alternative",
-                    "correlation"),
+                    "correlation",
+                    "alternative"),
                 columns=list(
-                    list(
-                        `name`="alternative", 
-                        `title`="Hypothesis", 
-                        `type`="text", 
-                        `format`="text"),
                     list(
                         `name`="t_val", 
                         `title`="t", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
                         `name`="df", 
                         `title`="df", 
@@ -156,27 +162,27 @@ rsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `name`="p_val", 
                         `title`="p", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="z_cc_a", 
-                        `title`="Z-CC Task A", 
+                        `title`="Z-CC (Task A)", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
                         `name`="z_cc_b", 
-                        `title`="Z-CC Task B", 
+                        `title`="Z-CC (Task B)", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
                         `name`="z_dcc", 
                         `title`="Z-DCC", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
                         `name`="point_estim", 
                         `title`="Abnormality (%)", 
                         `type`="number", 
-                        `format`="dp:2"))))
+                        `format`="zto"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -184,11 +190,18 @@ rsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))
+                visible="(show_plot)",
+                clearWith=list(
+                    "case_a",
+                    "case_b",
+                    "controls_a",
+                    "controls_b",
+                    "sd_a",
+                    "sd_b")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="txtOutput",
-                title="RSDT - Text Output",
+                title="Revised Standardised Difference Test - Raw R Text Output",
                 visible="(show_txt_output)"))}))
 
 rsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -199,7 +212,7 @@ rsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "rsdt",
-                version = c(1,0,0),
+                version = c(1,1,0),
                 options = options,
                 results = rsdtResults$new(options=options),
                 data = data,
@@ -212,7 +225,7 @@ rsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'na')
         }))
 
-#' RSDT
+#' Revised Standardised Difference Test
 #'
 #' 
 #' @param case_a .
@@ -241,15 +254,15 @@ rsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 rsdt <- function(
-    case_a = 0,
-    case_b = 0,
-    controls_a = 0,
-    controls_b = 0,
-    sd_a = 0,
-    sd_b = 0,
-    sample_size = 0,
-    correlation = 0,
-    alternative = "less",
+    case_a = 35,
+    case_b = 48,
+    controls_a = 50,
+    controls_b = 50,
+    sd_a = 10,
+    sd_b = 10,
+    sample_size = 20,
+    correlation = 0.5,
+    alternative = "two.sided",
     show_plot = FALSE,
     show_txt_output = FALSE) {
 

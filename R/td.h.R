@@ -6,11 +6,11 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            case = 0,
-            controls = 0,
-            sd = 0,
-            sample_size = 0,
-            alternative = "less",
+            case = 35,
+            controls = 50,
+            sd = 10,
+            sample_size = 20,
+            alternative = "two.sided",
             confidence_interval = TRUE,
             confidence_level = 95,
             show_plot = FALSE,
@@ -25,19 +25,21 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..case <- jmvcore::OptionNumber$new(
                 "case",
                 case,
-                default=0)
+                default=35)
             private$..controls <- jmvcore::OptionNumber$new(
                 "controls",
                 controls,
-                default=0)
+                default=50)
             private$..sd <- jmvcore::OptionNumber$new(
                 "sd",
                 sd,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sample_size <- jmvcore::OptionInteger$new(
                 "sample_size",
                 sample_size,
-                default=0)
+                default=20,
+                min=4)
             private$..alternative <- jmvcore::OptionList$new(
                 "alternative",
                 alternative,
@@ -45,7 +47,7 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "two.sided",
                     "less",
                     "greater"),
-                default="less")
+                default="two.sided")
             private$..confidence_interval <- jmvcore::OptionBool$new(
                 "confidence_interval",
                 confidence_interval,
@@ -53,7 +55,9 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..confidence_level <- jmvcore::OptionInteger$new(
                 "confidence_level",
                 confidence_level,
-                default=95)
+                default=95,
+                min=50,
+                max=99)
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
@@ -108,62 +112,61 @@ tdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="TD")
+                title="Test of Deficit")
             self$add(jmvcore::Table$new(
                 options=options,
                 name="resultsTable",
-                title="TD - Single Case Comparison",
+                title="Test of Deficit (TD) - Single Case Comparison",
                 rows=1,
+                refs=list(
+                    "singcar",
+                    "crawfordhowell1998"),
                 clearWith=list(
                     "case",
                     "controls",
                     "sd",
                     "sample_size",
-                    "alternative"),
+                    "alternative",
+                    "confidence_interval",
+                    "confidence_level"),
                 columns=list(
                     list(
-                        `name`="alternative", 
-                        `title`="Hypothesis", 
-                        `type`="text", 
-                        `format`="text"),
+                        `name`="t_val", 
+                        `title`="t", 
+                        `type`="number", 
+                        `format`="zto"),
                     list(
                         `name`="df", 
                         `title`="df", 
                         `type`="integer"),
                     list(
-                        `name`="t_val", 
-                        `title`="t", 
-                        `type`="number", 
-                        `format`="dp:2"),
-                    list(
                         `name`="p_val", 
                         `title`="p", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="z_cc", 
                         `title`="Z-CC", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
                         `name`="point_estim", 
                         `title`="Abnormality (%)", 
                         `type`="number", 
-                        `format`="dp:2"),
-                    list(
-                        `name`="ci_interval", 
-                        `title`="CI", 
-                        `type`="text", 
-                        `visible`="(confidence_interval)"),
+                        `format`="zto"),
                     list(
                         `name`="ci_lower", 
-                        `title`="Lower CI", 
+                        `title`="Lower", 
                         `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Confidence Interval", 
                         `visible`="(confidence_interval)"),
                     list(
                         `name`="ci_upper", 
-                        `title`="Upper CI", 
+                        `title`="Upper", 
                         `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Confidence Interval", 
                         `visible`="(confidence_interval)"))))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -172,11 +175,15 @@ tdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))
+                visible="(show_plot)",
+                clearWith=list(
+                    "case",
+                    "controls",
+                    "sd")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="txtOutput",
-                title="TD - Text Output",
+                title="Test of Deficit - Raw R Text Output",
                 visible="(show_txt_output)"))}))
 
 tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -187,7 +194,7 @@ tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "td",
-                version = c(1,0,0),
+                version = c(1,1,0),
                 options = options,
                 results = tdResults$new(options=options),
                 data = data,
@@ -200,7 +207,7 @@ tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'na')
         }))
 
-#' TD
+#' Test of Deficit
 #'
 #' 
 #' @param case .
@@ -227,11 +234,11 @@ tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 td <- function(
-    case = 0,
-    controls = 0,
-    sd = 0,
-    sample_size = 0,
-    alternative = "less",
+    case = 35,
+    controls = 50,
+    sd = 10,
+    sample_size = 20,
+    alternative = "two.sided",
     confidence_interval = TRUE,
     confidence_level = 95,
     show_plot = FALSE,

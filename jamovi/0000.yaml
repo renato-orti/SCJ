@@ -1,13 +1,13 @@
 ---
 title: Single Case Jamovi (SCJ)
 name: SCJ
-version: 1.0.0
+version: 1.1.0
 jms: '1.0'
 authors:
   - Michela Possenti
   - Renato Orti
 maintainer: Renato Orti <renato.orti@unipd.it>
-date: '2026-10-06'
+date: '2026-11-01'
 type: R
 description: >-
   Single Case Jamovi (SCJ) provides a zero-code graphical user interface for
@@ -16,52 +16,82 @@ description: >-
   methodology) to reliably compare single-case scores  against small normative
   samples, utilizing the singcar R package.
 analyses:
-  - title: TD
+  - title: Test of Deficit
+    menuTitle: Test of Deficit
+    menuSubtitle: TD
     name: td
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Frequentist
-    menuTitle: TD
     description: >-
       Performs the Test of Deficit (TD) to reliably compare a single case's
       score against a small normative sample using frequentist methodology 
       (Crawford & Howell, 1998).
-  - title: RSDT
+  - title: Revised Standardised Difference Test
+    menuTitle: Revised Standardised Difference Test
+    menuSubtitle: RSDT
     name: rsdt
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Frequentist
-    menuTitle: RSDT
-  - title: DISSOCS
+    description: >-
+      Performs the Revised Standardized Difference Test (RSDT) to reliably
+      compare the difference between two tasks in a single case against a small
+      normative sample using frequentist methodology (Crawford & Garthwaite,
+      2005).
+  - title: Dissociation Test
+    menuTitle: Dissociation Test
+    menuSubtitle: DISSOCS
     name: dissocs
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Frequentist
-    menuTitle: DISSOCS
-  - title: BTD
+    description: >-
+      Performs the Dissociation Test (DISSOCS) to evaluate deficit and
+      dissociation criteria between two tasks in a single case compared to a
+      small normative sample using frequentist methodology (Crawford &
+      Garthwaite, 2005).
+  - title: Bayesian Test of Deficit
+    menuTitle: Bayesian Test of Deficit
+    menuSubtitle: BTD
     name: btd
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Bayesian
-    menuTitle: BTD
-  - title: BSDT
+    description: >-
+      Performs the Bayesian Test of Deficit (BTD) to reliably compare a single
+      case's score against a small normative sample using Bayesian methodology
+      and Monte Carlo simulation (Crawford & Garthwaite, 2007).
+  - title: Bayesian Standardised Difference Test
+    menuTitle: Bayesian Standardised Difference Test
+    menuSubtitle: BSDT
     name: bsdt
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Bayesian
-    menuTitle: BSDT
-  - title: B-DISSOCS
+    description: >-
+      Performs the Bayesian Standardised Difference Test (BSDT) to reliably
+      compare the difference between two tasks in a single case against a small
+      normative sample using Bayesian methodology and Monte Carlo simulation
+      (Crawford & Garthwaite, 2007).
+  - title: Bayesian Dissociation Test
+    menuTitle: Bayesian Dissociation Test
+    menuSubtitle: B-DISSOCS
     name: bdissocs
     ns: SCJ
     category: analyses
     menuGroup: SCJ
     menuSubgroup: Bayesian
-    menuTitle: B-DISSOCS
+    description: >-
+      Performs the Bayesian Dissociation Test (B-DISSOCS) to evaluate deficit
+      and dissociation criteria between two tasks in a single case compared to a
+      small normative sample using Bayesian methodology and Monte Carlo
+      simulation (Crawford & Garthwaite, 2007).
 usesNative: true
 minApp: 1.0.8
 

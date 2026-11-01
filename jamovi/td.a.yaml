@@ -5,7 +5,6 @@
 #            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
 # 
 # Authors:
-#
 #   - Michela Possenti
 #     Affiliation: University of Campania "L. Vanvitelli"
 #     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
@@ -30,60 +29,70 @@
 # =================================================================================================
 ---
 name:  td
-title: TD
+title: Test of Deficit
+menuTitle: Test of Deficit
+menuSubtitle: TD
 menuGroup: SCJ
-version: '1.0.0'
+version: '1.1.0'
 jas: '1.2'
 
 options:
+    # ---- Basic Input Data ----
     - name: case                 # Case Score (namely "case" in singcar::TD)
       title: Case Score
       type: Number
-      default: 0
+      default: 35.0
       
     - name: controls             # Controls Score (namely "controls" in singcar::TD)
       title: Controls Mean
       type: Number
-      default: 0
+      default: 50.0
       
     - name: sd                   # SD of controls Score (namely "sd" in singcar::TD)
       title: Controls SD
       type: Number
-      default: 0
+      default: 10.0
+      min: 0.001
       
     - name: sample_size          # Sample size of controls (namely "sample_size" in singcar::TD)
       title: Controls Sample Size
       type: Integer
-      default: 0
-      
-    - name: alternative          # Alternative hypothesis (namely "alternative" in singcar::TD)
-      title: Hypothesis
+      default: 20
+      min: 4
+    
+    # ---- Hypothesis Testing ----
+    - name: alternative
+      title: Hypothesis Testing
       type: List
       options:
-       - name: "two.sided"
-         title: "Two Sided (Case ≠ Control)"
-       - name: "less"
-         title: "Less (Case < Control)"
-       - name: "greater"
-         title: "Greater (Case > Control)" 
-      default: "less"
-       
-    - name: confidence_interval  # Confidence interval (namely "conf_int" in singcar::TD)
-      title: Standardized Case Score (Z-CC)
+        - name: two.sided
+          title: Two sided (Case ≠ Control)
+        - name: less
+          title: Less (Case < Control)
+        - name: greater
+          title: Greater (Case > Control)
+      default: two.sided  
+    
+    # ---- Advanced Input Data ----
+    - name: confidence_interval  # Confidence interval toggle
+      title: Confidence Interval (CI)
       type: Bool
       default: true
       
     - name: confidence_level     # Level of confidence (namely "conf_level" in singcar::TD)   
-      title: Confidence level (%)
+      title: Confidence Level Interval (%)
       type: Integer
       default: 95
+      min: 50
+      max: 99
       
+    # ---- Additional Output ----
     - name: show_plot            # Command for graph output
-      title: Show plot
+      title: Show Plot
       type: Bool
       default: false
     
     - name: show_txt_output      # Command for text output   
-      title: Show text output
+      title: Show Raw R Output
       type: Bool
       default: false

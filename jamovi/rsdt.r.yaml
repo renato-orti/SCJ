@@ -5,7 +5,6 @@
 #            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
 # 
 # Authors:
-#
 #   - Michela Possenti
 #     Affiliation: University of Campania "L. Vanvitelli"
 #     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
@@ -30,8 +29,12 @@
 # =================================================================================================
 ---
 name:  rsdt
-title: RSDT
+title: Revised Standardised Difference Test
 jrs:   '1.1'
+
+refs:
+  - singcar
+  - crawfordgarthwaite2005
 
 items:
     - name: resultsTable
@@ -39,23 +42,21 @@ items:
       type: Table
       rows: 1
       clearWith:
-          - case
-          - controls
-          - sd
+          - case_a
+          - case_b
+          - controls_a
+          - controls_b
+          - sd_a
+          - sd_b
           - sample_size
-          - alternative
           - correlation
+          - alternative
           
       columns:
-          - name: alternative
-            title: "Hypothesis"
-            type: text
-            format: text
-            
           - name: t_val
             title: "t"
             type: number
-            format: dp:2
+            format: zto
             
           - name: df
             title: "df"
@@ -64,27 +65,27 @@ items:
           - name: p_val
             title: "p"
             type: number
-            format: zto, pvalue
+            format: zto,pvalue
             
           - name: z_cc_a
-            title: "Z-CC Task A"
+            title: "Z-CC (Task A)"
             type: number
-            format: dp:2
+            format: zto
             
           - name: z_cc_b
-            title: "Z-CC Task B"
+            title: "Z-CC (Task B)"
             type: number
-            format: dp:2
+            format: zto
             
           - name: z_dcc
             title: "Z-DCC"
             type: number
-            format: dp:2
+            format: zto
             
           - name: point_estim
             title: "Abnormality (%)"
             type: number
-            format: dp:2
+            format: zto
       
     - name: plot
       title: Case vs Controls Difference of Scores
@@ -93,8 +94,15 @@ items:
       height: 350
       renderFun: .plot
       visible: (show_plot)
+      clearWith:
+          - case_a
+          - case_b
+          - controls_a
+          - controls_b
+          - sd_a
+          - sd_b
       
-    - name:  txtOutput
-      title: RSDT - Text Output
-      type:  Preformatted
+    - name: txtOutput
+      title: Revised Standardised Difference Test - Raw R Text Output
+      type: Preformatted
       visible: (show_txt_output)

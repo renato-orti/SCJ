@@ -1,80 +1,113 @@
-title: B-DISSOCS
+# =================================================================================================
+# Module:    BDISSOCS - Single Case Comparison
+# File:      bdissocs.u.yaml (User Interface Layout)
+#
+# Authors:
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+# =================================================================================================
+---
 name: bdissocs
+title: Bayesian Dissociation Test
 jus: '3.0'
-stage: 0
-compilerMode: aggressive
+compilerMode: tame
+
 children:
+  # ---- Paired Task Parameters (Isolated Two-Column Grid) ----
+  - type: LayoutBox
+    margin: normal
+    children:
+      - type: LayoutBox
+        cell: { column: 0, row: 0 }
+        children:
+          - type: Label
+            label: Task A Parameters
+            children:
+              - type: TextBox
+                name: case_a
+                format: number
+              - type: TextBox
+                name: controls_a
+                format: number
+              - type: TextBox
+                name: sd_a
+                format: number
+
+      - type: LayoutBox
+        cell: { column: 1, row: 0 }
+        children:
+          - type: Label
+            label: Task B Parameters
+            children:
+              - type: TextBox
+                name: case_b
+                format: number
+              - type: TextBox
+                name: controls_b
+                format: number
+              - type: TextBox
+                name: sd_b
+                format: number
+
+  # ---- Control Sample & Hypotheses (Linear Vertical Layout) ----
   - type: LayoutBox
     margin: large
     children:
-      - type: TextBox
-        name: case_a
-        format: number
-  - type: LayoutBox
-    margin: large
+      - type: Label
+        label: Control Sample Statistics
+        children:
+          - type: TextBox
+            name: sample_size
+            format: number
+          - type: TextBox
+            name: correlation
+            format: number
+
+      - type: Label
+        label: Hypothesis Testing
+        children:
+          - type: ComboBox
+            name: alternative_a
+          - type: ComboBox
+            name: alternative_b
+
+  # ---- Advanced Simulation & Scale Options ----
+  - type: CollapseBox
+    label: Advanced Simulation & Scale Options
+    collapsed: true
     children:
-      - type: TextBox
-        name: case_b
-        format: number
-  - type: LayoutBox
-    margin: large
+      - type: LayoutBox
+        margin: normal
+        children:
+          - type: CheckBox
+            name: unstandardised
+          - type: CheckBox
+            name: credible_interval
+          - type: TextBox
+            name: credible_level
+            format: number
+            enable: (credible_interval)
+          - type: TextBox
+            name: iter
+            format: number
+          - type: TextBox
+            name: seed
+            format: number
+
+  # ---- Additional Output ----
+  - type: CollapseBox
+    label: Additional Output
+    collapsed: true
     children:
-      - type: TextBox
-        name: controls_a
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: controls_b
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: sd_a
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: sd_b
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: sample_size
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: correlation
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: credible_interval
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: credible_level
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: iter
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: unstandardised
-      - type: CheckBox
-        name: show_plot
-      - type: CheckBox
-        name: show_txt_output
+      - type: LayoutBox
+        margin: normal
+        children:
+          - type: CheckBox
+            name: show_plot
+          - type: CheckBox
+            name: show_txt_output

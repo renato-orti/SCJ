@@ -2,10 +2,9 @@
 # Module:    TD - Single Case Comparison
 # File:      td.r.yaml (Results Configuration)
 # Purpose:   Output layout and tables definition for executing single-case 
-#            deficit tests unsing the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
+#            deficit tests using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
 # 
 # Authors:
-#
 #   - Michela Possenti
 #     Affiliation: University of Campania "L. Vanvitelli"
 #     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
@@ -30,64 +29,64 @@
 # =================================================================================================
 ---
 name:  td
-title: TD
+title: Test of Deficit
 jrs:   '1.1'
 
 items:
     - name: resultsTable
-      title: TD - Single Case Comparison
+      title: Test of Deficit (TD) - Single Case Comparison
       type: Table
       rows: 1
+      refs:
+          - singcar
+          - crawfordhowell1998
+          
       clearWith:
           - case
           - controls
           - sd
           - sample_size
           - alternative
+          - confidence_interval
+          - confidence_level
           
       columns:
-          - name: alternative
-            title: "Hypothesis"
-            type: text
-            format: text
+          - name: t_val
+            title: "t"
+            type: number
+            format: zto
             
           - name: df
             title: "df"
             type: integer
             
-          - name: t_val
-            title: "t"
-            type: number
-            format: dp:2
-            
           - name: p_val
             title: "p"
             type: number
-            format: zto, pvalue
+            format: zto,pvalue
             
           - name: z_cc
             title: "Z-CC"
             type: number
-            format: dp:2
+            format: zto
             
           - name: point_estim
             title: "Abnormality (%)"
             type: number
-            format: dp:2
-          
-          - name: ci_interval
-            title: "CI"
-            type: text
-            visible: (confidence_interval)
+            format: zto
             
           - name: ci_lower
-            title: "Lower CI"
+            title: "Lower"
             type: number
+            format: zto
+            superTitle: Confidence Interval
             visible: (confidence_interval)
             
           - name: ci_upper
-            title: "Upper CI"
+            title: "Upper"
             type: number
+            format: zto
+            superTitle: Confidence Interval
             visible: (confidence_interval)
       
     - name: plot
@@ -97,8 +96,12 @@ items:
       height: 350
       renderFun: .plot
       visible: (show_plot)
+      clearWith:
+          - case
+          - controls
+          - sd
       
-    - name:  txtOutput
-      title: TD - Text Output
-      type:  Preformatted
+    - name: txtOutput
+      title: Test of Deficit - Raw R Text Output
+      type: Preformatted
       visible: (show_txt_output)

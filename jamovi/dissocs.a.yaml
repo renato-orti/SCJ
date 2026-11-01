@@ -30,58 +30,87 @@
 # =================================================================================================
 ---
 name:  dissocs
-title: DISSOCS
+title: Dissociation Test
+menuTitle: Dissociation Test
+menuSubtitle: DISSOCS
 menuGroup: SCJ
-version: '1.0.0'
+version: '1.1.0'
 jas: '1.2'
 
 options:
-    - name: case_a                 # Case Score on Task A (namely "case_a" in singcar::RSDT)
+    # ---- Basic Input Data ----
+    - name: case_a
       title: Case Score Task A
       type: Number
-      default: 0
-      
-    - name: case_b                 # Case Score on Task A (namely "case_b" in singcar::RSDT)
+      default: 35.0
+
+    - name: case_b
       title: Case Score Task B
       type: Number
-      default: 0
-      
-    - name: controls_a             # Controls Score on Task A (namely "controls_a" in singcar::RSDT)
+      default: 48.0
+
+    - name: controls_a
       title: Controls Mean Task A
       type: Number
-      default: 0
-      
-    - name: controls_b             # Controls Score on Task B (namely "controls_b" in singcar::RSDT)
+      default: 50.0
+
+    - name: controls_b
       title: Controls Mean Task B
       type: Number
-      default: 0
-    
-    - name: sd_a                   # SD of controls Score on Task A (namely "sd_a" in singcar::RSDT)
+      default: 50.0
+
+    - name: sd_a
       title: Controls SD Task A
       type: Number
-      default: 0
-      
-    - name: sd_b                   # SD of controls Score on Task B (namely "sd_b" in singcar::RSDT)
+      default: 10.0
+      min: 0.001
+
+    - name: sd_b
       title: Controls SD Task B
       type: Number
-      default: 0
-      
-    - name: sample_size            # Sample size of controls (namely "sample_size" in singcar::RSDT)
+      default: 10.0
+      min: 0.001
+
+    - name: alternative_a
+      title: "Task A Expected Direction"
+      type: List
+      options:
+          - name: less
+            title: "Less (Case < Control)"
+          - name: greater
+            title: "Greater (Case > Control)"
+      default: less
+
+    - name: alternative_b
+      title: "Task B Expected Direction"
+      type: List
+      options:
+          - name: less
+            title: "Less (Case < Control)"
+          - name: greater
+            title: "Greater (Case > Control)"
+      default: less
+    
+    - name: sample_size
       title: Controls Sample Size
       type: Integer
-      default: 0
-      
-    - name: correlation            # SD of controls Score on Task B (namely "sd_b" in singcar::RSDT)
-      title: Correlation A & B 
+      default: 20
+      min: 4
+
+    - name: correlation
+      title: Correlation A & B
       type: Number
-      default: 0
-      
-    - name: show_plot              # Command to generate a plot of the test
-      title: Show plot
+      default: 0.50
+      min: -1.0
+      max: 1.0
+
+    # ---- Additional Output ----
+    - name: show_plot
+      title: Show Plot
       type: Bool
       default: false
-    
-    - name: show_txt_output       # Command for text output   
-      title: Text output
+
+    - name: show_txt_output
+      title: Show Raw R Output
       type: Bool
       default: false

@@ -1,59 +1,93 @@
-title: BTD
+# =================================================================================================
+# Module:    BTD - Single Case Comparison
+# File:      btd.u.yaml (User Interface Layout)
+#
+# Authors:
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+# =================================================================================================
+---
 name: btd
+title: Bayesian Test of Deficit
 jus: '3.0'
-stage: 0
-compilerMode: aggressive
+compilerMode: tame
+
 children:
+  # ---- Single Task Parameters ----
   - type: LayoutBox
     margin: large
     children:
-      - type: TextBox
-        name: case
-        format: number
-  - type: LayoutBox
-    margin: large
+      - type: Label
+        label: Task Parameters
+        children:
+          - type: TextBox
+            name: case
+            format: number
+          - type: TextBox
+            name: controls
+            format: number
+          - type: TextBox
+            name: sd
+            format: number
+
+      - type: Label
+        label: Control Sample Statistics
+        children:
+          - type: TextBox
+            name: sample_size
+            format: number
+
+      - type: Label
+        label: Hypothesis Testing
+        children:
+          - type: RadioButton
+            name: alternative_two_sided
+            optionName: alternative
+            optionPart: two.sided
+          - type: RadioButton
+            name: alternative_less
+            optionName: alternative
+            optionPart: less
+          - type: RadioButton
+            name: alternative_greater
+            optionName: alternative
+            optionPart: greater
+
+  # ---- Advanced Simulation & Scale Options ----
+  - type: CollapseBox
+    label: Advanced Simulation & Scale Options
+    collapsed: true
     children:
-      - type: TextBox
-        name: controls
-        format: number
-  - type: LayoutBox
-    margin: large
+      - type: LayoutBox
+        margin: normal
+        children:
+          - type: CheckBox
+            name: credible_interval
+          - type: TextBox
+            name: credible_level
+            format: number
+            enable: (credible_interval)
+          - type: TextBox
+            name: iter
+            format: number
+          - type: TextBox
+            name: seed
+            format: number
+
+  # ---- Additional Output ----
+  - type: CollapseBox
+    label: Additional Output
+    collapsed: true
     children:
-      - type: TextBox
-        name: sd
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: sample_size
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: ComboBox
-        name: alternative
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: credible_interval
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: credible_level
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: iter
-        format: number
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: show_plot
-      - type: CheckBox
-        name: show_txt_output
+      - type: LayoutBox
+        margin: normal
+        children:
+          - type: CheckBox
+            name: show_plot
+          - type: CheckBox
+            name: show_txt_output

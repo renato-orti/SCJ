@@ -6,14 +6,15 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            case = 0,
-            controls = 0,
-            sd = 0,
-            sample_size = 0,
-            alternative = "less",
+            case = 35,
+            controls = 50,
+            sd = 10,
+            sample_size = 20,
+            alternative = "two.sided",
             credible_interval = TRUE,
             credible_level = 95,
-            iter = 1000,
+            iter = 10000,
+            seed = 42,
             show_plot = FALSE,
             show_txt_output = FALSE, ...) {
 
@@ -26,19 +27,21 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..case <- jmvcore::OptionNumber$new(
                 "case",
                 case,
-                default=0)
+                default=35)
             private$..controls <- jmvcore::OptionNumber$new(
                 "controls",
                 controls,
-                default=0)
+                default=50)
             private$..sd <- jmvcore::OptionNumber$new(
                 "sd",
                 sd,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sample_size <- jmvcore::OptionInteger$new(
                 "sample_size",
                 sample_size,
-                default=0)
+                default=20,
+                min=4)
             private$..alternative <- jmvcore::OptionList$new(
                 "alternative",
                 alternative,
@@ -46,7 +49,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "two.sided",
                     "less",
                     "greater"),
-                default="less")
+                default="two.sided")
             private$..credible_interval <- jmvcore::OptionBool$new(
                 "credible_interval",
                 credible_interval,
@@ -54,13 +57,20 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..credible_level <- jmvcore::OptionInteger$new(
                 "credible_level",
                 credible_level,
-                default=95)
+                default=95,
+                min=50,
+                max=99)
             private$..iter <- jmvcore::OptionInteger$new(
                 "iter",
                 iter,
-                default=1000,
-                min=1,
+                default=10000,
+                min=1000,
                 max=10000000)
+            private$..seed <- jmvcore::OptionInteger$new(
+                "seed",
+                seed,
+                default=42,
+                min=1)
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
@@ -78,6 +88,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..credible_interval)
             self$.addOption(private$..credible_level)
             self$.addOption(private$..iter)
+            self$.addOption(private$..seed)
             self$.addOption(private$..show_plot)
             self$.addOption(private$..show_txt_output)
         }),
@@ -90,6 +101,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         credible_interval = function() private$..credible_interval$value,
         credible_level = function() private$..credible_level$value,
         iter = function() private$..iter$value,
+        seed = function() private$..seed$value,
         show_plot = function() private$..show_plot$value,
         show_txt_output = function() private$..show_txt_output$value),
     private = list(
@@ -101,6 +113,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..credible_interval = NA,
         ..credible_level = NA,
         ..iter = NA,
+        ..seed = NA,
         ..show_plot = NA,
         ..show_txt_output = NA)
 )
@@ -118,29 +131,31 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="BTD")
+                title="Bayesian Test of Deficit")
             self$add(jmvcore::Table$new(
                 options=options,
                 name="resultsTable",
-                title="BTD - Single Case Comparison with Bayes methodology",
+                title="Bayesian Test of Deficit (BTD) - Single Case Comparison",
                 rows=1,
+                refs=list(
+                    "singcar",
+                    "crawfordgarthwaite2007"),
                 clearWith=list(
                     "case",
                     "controls",
                     "sd",
                     "sample_size",
                     "alternative",
-                    "iter"),
+                    "credible_interval",
+                    "credible_level",
+                    "iter",
+                    "seed"),
                 columns=list(
                     list(
-                        `name`="iter", 
-                        `title`="Iterations", 
-                        `type`="integer"),
-                    list(
-                        `name`="alternative", 
-                        `title`="Hypothesis", 
-                        `type`="text", 
-                        `format`="text"),
+                        `name`="z_cc", 
+                        `title`="Z-CC", 
+                        `type`="number", 
+                        `format`="zto"),
                     list(
                         `name`="df", 
                         `title`="df", 
@@ -149,31 +164,25 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                         `name`="p_val", 
                         `title`="p", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
-                    list(
-                        `name`="z_cc", 
-                        `title`="Z-CC", 
-                        `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="point_estim", 
                         `title`="Abnormality (%)", 
                         `type`="number", 
-                        `format`="dp:2"),
-                    list(
-                        `name`="credible_interval", 
-                        `title`="CrI", 
-                        `type`="text", 
-                        `visible`="(credible_interval)"),
+                        `format`="zto"),
                     list(
                         `name`="ci_lower", 
-                        `title`="Lower CrI", 
+                        `title`="Lower", 
                         `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Credible Interval", 
                         `visible`="(credible_interval)"),
                     list(
                         `name`="ci_upper", 
-                        `title`="Upper CrI", 
+                        `title`="Upper", 
                         `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Credible Interval", 
                         `visible`="(credible_interval)"))))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -182,11 +191,17 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))
+                visible="(show_plot)",
+                clearWith=list(
+                    "case",
+                    "controls",
+                    "sd",
+                    "iter",
+                    "seed")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="textOutput",
-                title="BTD - Text Output",
+                title="Bayesian Test of Deficit - Raw R Text Output",
                 visible="(show_txt_output)"))}))
 
 btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -197,7 +212,7 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "btd",
-                version = c(1,0,0),
+                version = c(1,1,0),
                 options = options,
                 results = btdResults$new(options=options),
                 data = data,
@@ -210,7 +225,7 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'na')
         }))
 
-#' BTD
+#' Bayesian Test of Deficit
 #'
 #' 
 #' @param case .
@@ -221,6 +236,7 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param credible_interval .
 #' @param credible_level .
 #' @param iter .
+#' @param seed .
 #' @param show_plot .
 #' @param show_txt_output .
 #' @return A results object containing:
@@ -238,14 +254,15 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 btd <- function(
-    case = 0,
-    controls = 0,
-    sd = 0,
-    sample_size = 0,
-    alternative = "less",
+    case = 35,
+    controls = 50,
+    sd = 10,
+    sample_size = 20,
+    alternative = "two.sided",
     credible_interval = TRUE,
     credible_level = 95,
-    iter = 1000,
+    iter = 10000,
+    seed = 42,
     show_plot = FALSE,
     show_txt_output = FALSE) {
 
@@ -262,6 +279,7 @@ btd <- function(
         credible_interval = credible_interval,
         credible_level = credible_level,
         iter = iter,
+        seed = seed,
         show_plot = show_plot,
         show_txt_output = show_txt_output)
 

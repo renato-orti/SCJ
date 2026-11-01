@@ -5,7 +5,6 @@
 #            using the singcar package (Rittmo & McIntosh, 2021) in Jamovi.
 # 
 # Authors:
-#
 #   - Michela Possenti
 #     Affiliation: University of Campania "L. Vanvitelli"
 #     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
@@ -30,12 +29,16 @@
 # =================================================================================================
 ---
 name:  dissocs
-title: DISSOCS
+title: Dissociation Test
 jrs:   '1.1'
+
+refs:
+  - singcar
+  - crawfordgarthwaite2005
 
 items:
     - name: classTable
-      title: Clinical Classification
+      title: Dissociation Classification
       type: Table
       rows: 1
       clearWith:
@@ -62,7 +65,7 @@ items:
             type: text
     
     - name: resultsTable
-      title: Statistical Results (TD & RSDT)
+      title: Dissociation Test (DISSOCS) - Single Case Comparison
       type: Table
       rows: 1
       clearWith:
@@ -76,45 +79,45 @@ items:
           - correlation
       
       columns:
-          - name: df
-            title: "df"
-            type: integer
-            
-          - name: p_val_a
-            title: "p (Task A)"
-            type: number
-            format: zto, pvalue
-          
           - name: z_cc_a
             title: "Z-CC (Task A)"
             type: number
-            format: dp:2
+            format: zto
       
-          - name: p_val_b
-            title: "p (Task B)"
+          - name: p_val_a
+            title: "p (Task A)"
             type: number
-            format: zto, pvalue
-          
+            format: zto,pvalue
+
           - name: z_cc_b
             title: "Z-CC (Task B)"
             type: number
-            format: dp:2
-        
-          - name: p_val_ab
-            title: "p (Task A - B)"
+            format: zto
+
+          - name: p_val_b
+            title: "p (Task B)"
             type: number
-            format: zto, pvalue
-          
+            format: zto,pvalue
+
           - name: z_dcc
             title: "Z-DCC"
             type: number
-            format: dp:2
-        
+            format: zto
+
+          - name: df
+            title: "df"
+            type: integer
+
+          - name: p_val_ab
+            title: "p (Task A - B)"
+            type: number
+            format: zto,pvalue
+
           - name: point_estim
             title: "Abnormality (%)"
             type: number
-            format: dp:2
-        
+            format: zto
+
     - name: plot
       title: Case vs Controls Difference of Scores
       type: Image
@@ -123,7 +126,7 @@ items:
       renderFun: .plot
       visible: (show_plot)
       
-    - name:  txtOutput
-      title: Detailed Text Output
-      type:  Preformatted
+    - name: txtOutput
+      title: Dissociation Test Raw R Output
+      type: Preformatted
       visible: (show_txt_output)

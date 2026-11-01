@@ -1,0 +1,70 @@
+# =================================================================================================
+# Module:    SCJ - Single Case Jamovi
+# File:      00refs.yaml (Reference Bibliography Configuration)
+# Purpose:   Central bibliographic references repository for the Single Case Jamovi module,
+#            providing automatic APA-formatted citations across analysis outputs.
+# 
+# Authors:
+#
+#   - Michela Possenti
+#     Affiliation: University of Campania "L. Vanvitelli"
+#     ORCID: https://orcid.org/0000-0001-8937-0611 | Scopus ID: 57215597427
+#
+#   - Renato Orti
+#     Affiliation: University of Padova
+#     ORCID: https://orcid.org/0000-0002-6856-7981 | Scopus ID: 57218222421
+#
+# References:
+#   - Crawford, J. R., & Howell, D. C. (1998). Comparing an Individual's Test Score Against Norms 
+#     Derived from Small Samples. The Clinical Neuropsychologist, 12(4), 482-486.
+#     https://doi.org/10.1076/clin.12.4.482.7241
+#
+#   - Crawford, J. R. & Garthwaite, P.H. (2005). Testing for suspected impairments and dissociations 
+#     in single-case studies in neuropsychology: Evaluation of alternatives using Monte Carlo 
+#     simulations and revised tests for dissociations. Neuropsychology, 19, 318-331.
+#     https://doi.org/10.1037/0894-4105.19.3.318
+#
+#   - Crawford, J. R., & Garthwaite, P. H. (2007). Comparison of a single case to a control 
+#     or normative sample in neuropsychology: Development of a Bayesian approach. 
+#     Cognitive Neuropsychology, 24(4), 343-372. https://doi.org/10.1080/02643290701290146
+#
+#   - Rittmo J.Ö., & McIntosh R.D. (2021). singcar: Comparing single cases to small samples in R. 
+#     Journal of Open Source Software, 6(68), 3887. https://doi.org/10.21105/joss.03887
+#
+# Note:      Developed to provide a zero-code graphical user interface, making single-case 
+#            comparisons easily accessible for clinical and experimental neuropsychology 
+#            without compromising scientific rigor.
+# =================================================================================================
+---
+refs:
+    singcar:
+        type: "article"
+        author: "Rittmo, J. Ö., & McIntosh, R. D."
+        year: 2021
+        title: "singcar: Comparing single cases to small samples in R"
+        publisher: "Journal of Open Source Software"
+        url: "https://doi.org/10.21105/joss.03887"
+
+    crawfordhowell1998:
+        type: "article"
+        author: "Crawford, J. R., & Howell, D. C."
+        year: 1998
+        title: "Comparing an individual's test score against norms derived from small samples in neuropsychology: a modification of Miller's method"
+        publisher: "The Clinical Neuropsychologist"
+        url: https://psycnet.apa.org/doi/10.1076/clin.12.4.482.7241
+
+    crawfordgarthwaite2005:
+        type: "article"
+        author: "Crawford, J. R., & Garthwaite, P. H."
+        year: 2005
+        title: "Testing for suspected impairments and dissociations in single-case studies in neuropsychology"
+        publisher: "Neuropsychology"
+        url: https://psycnet.apa.org/doi/10.1037/0894-4105.19.3.318
+
+    crawfordgarthwaite2007:
+        type: "article"
+        author: "Crawford, J. R., & Garthwaite, P. H."
+        year: 2007
+        title: "Comparison of a single case to a control or normative sample in neuropsychology: Development of a Bayesian approach"
+        publisher: "Cognitive Neuropsychology"
+        url: https://psycnet.apa.org/doi/10.1080/02643290701290146

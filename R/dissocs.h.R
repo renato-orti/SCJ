@@ -6,14 +6,16 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            case_a = 0,
-            case_b = 0,
-            controls_a = 0,
-            controls_b = 0,
-            sd_a = 0,
-            sd_b = 0,
-            sample_size = 0,
-            correlation = 0,
+            case_a = 35,
+            case_b = 48,
+            controls_a = 50,
+            controls_b = 50,
+            sd_a = 10,
+            sd_b = 10,
+            alternative_a = "less",
+            alternative_b = "less",
+            sample_size = 20,
+            correlation = 0.5,
             show_plot = FALSE,
             show_txt_output = FALSE, ...) {
 
@@ -26,35 +28,54 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..case_a <- jmvcore::OptionNumber$new(
                 "case_a",
                 case_a,
-                default=0)
+                default=35)
             private$..case_b <- jmvcore::OptionNumber$new(
                 "case_b",
                 case_b,
-                default=0)
+                default=48)
             private$..controls_a <- jmvcore::OptionNumber$new(
                 "controls_a",
                 controls_a,
-                default=0)
+                default=50)
             private$..controls_b <- jmvcore::OptionNumber$new(
                 "controls_b",
                 controls_b,
-                default=0)
+                default=50)
             private$..sd_a <- jmvcore::OptionNumber$new(
                 "sd_a",
                 sd_a,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sd_b <- jmvcore::OptionNumber$new(
                 "sd_b",
                 sd_b,
-                default=0)
+                default=10,
+                min=0.001)
+            private$..alternative_a <- jmvcore::OptionList$new(
+                "alternative_a",
+                alternative_a,
+                options=list(
+                    "less",
+                    "greater"),
+                default="less")
+            private$..alternative_b <- jmvcore::OptionList$new(
+                "alternative_b",
+                alternative_b,
+                options=list(
+                    "less",
+                    "greater"),
+                default="less")
             private$..sample_size <- jmvcore::OptionInteger$new(
                 "sample_size",
                 sample_size,
-                default=0)
+                default=20,
+                min=4)
             private$..correlation <- jmvcore::OptionNumber$new(
                 "correlation",
                 correlation,
-                default=0)
+                default=0.5,
+                min=-1,
+                max=1)
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
@@ -70,6 +91,8 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..controls_b)
             self$.addOption(private$..sd_a)
             self$.addOption(private$..sd_b)
+            self$.addOption(private$..alternative_a)
+            self$.addOption(private$..alternative_b)
             self$.addOption(private$..sample_size)
             self$.addOption(private$..correlation)
             self$.addOption(private$..show_plot)
@@ -82,6 +105,8 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         controls_b = function() private$..controls_b$value,
         sd_a = function() private$..sd_a$value,
         sd_b = function() private$..sd_b$value,
+        alternative_a = function() private$..alternative_a$value,
+        alternative_b = function() private$..alternative_b$value,
         sample_size = function() private$..sample_size$value,
         correlation = function() private$..correlation$value,
         show_plot = function() private$..show_plot$value,
@@ -93,6 +118,8 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..controls_b = NA,
         ..sd_a = NA,
         ..sd_b = NA,
+        ..alternative_a = NA,
+        ..alternative_b = NA,
         ..sample_size = NA,
         ..correlation = NA,
         ..show_plot = NA,
@@ -113,11 +140,14 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="DISSOCS")
+                title="Dissociation Test",
+                refs=list(
+                    "singcar",
+                    "crawfordgarthwaite2005"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="classTable",
-                title="Clinical Classification",
+                title="Dissociation Classification",
                 rows=1,
                 clearWith=list(
                     "case_a",
@@ -144,7 +174,7 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="resultsTable",
-                title="Statistical Results (TD & RSDT)",
+                title="Dissociation Test (DISSOCS) - Single Case Comparison",
                 rows=1,
                 clearWith=list(
                     "case_a",
@@ -157,44 +187,44 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "correlation"),
                 columns=list(
                     list(
-                        `name`="df", 
-                        `title`="df", 
-                        `type`="integer"),
+                        `name`="z_cc_a", 
+                        `title`="Z-CC (Task A)", 
+                        `type`="number", 
+                        `format`="zto"),
                     list(
                         `name`="p_val_a", 
                         `title`="p (Task A)", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
-                    list(
-                        `name`="z_cc_a", 
-                        `title`="Z-CC (Task A)", 
-                        `type`="number", 
-                        `format`="dp:2"),
-                    list(
-                        `name`="p_val_b", 
-                        `title`="p (Task B)", 
-                        `type`="number", 
-                        `format`="zto, pvalue"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="z_cc_b", 
                         `title`="Z-CC (Task B)", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
                     list(
-                        `name`="p_val_ab", 
-                        `title`="p (Task A - B)", 
+                        `name`="p_val_b", 
+                        `title`="p (Task B)", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="z_dcc", 
                         `title`="Z-DCC", 
                         `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto"),
+                    list(
+                        `name`="df", 
+                        `title`="df", 
+                        `type`="integer"),
+                    list(
+                        `name`="p_val_ab", 
+                        `title`="p (Task A - B)", 
+                        `type`="number", 
+                        `format`="zto,pvalue"),
                     list(
                         `name`="point_estim", 
                         `title`="Abnormality (%)", 
                         `type`="number", 
-                        `format`="dp:2"))))
+                        `format`="zto"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -206,7 +236,7 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="txtOutput",
-                title="Detailed Text Output",
+                title="Dissociation Test Raw R Output",
                 visible="(show_txt_output)"))}))
 
 dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -217,7 +247,7 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "dissocs",
-                version = c(1,0,0),
+                version = c(1,1,0),
                 options = options,
                 results = dissocsResults$new(options=options),
                 data = data,
@@ -230,7 +260,7 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'na')
         }))
 
-#' DISSOCS
+#' Dissociation Test
 #'
 #' 
 #' @param case_a .
@@ -239,6 +269,8 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param controls_b .
 #' @param sd_a .
 #' @param sd_b .
+#' @param alternative_a .
+#' @param alternative_b .
 #' @param sample_size .
 #' @param correlation .
 #' @param show_plot .
@@ -259,14 +291,16 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 dissocs <- function(
-    case_a = 0,
-    case_b = 0,
-    controls_a = 0,
-    controls_b = 0,
-    sd_a = 0,
-    sd_b = 0,
-    sample_size = 0,
-    correlation = 0,
+    case_a = 35,
+    case_b = 48,
+    controls_a = 50,
+    controls_b = 50,
+    sd_a = 10,
+    sd_b = 10,
+    alternative_a = "less",
+    alternative_b = "less",
+    sample_size = 20,
+    correlation = 0.5,
     show_plot = FALSE,
     show_txt_output = FALSE) {
 
@@ -281,6 +315,8 @@ dissocs <- function(
         controls_b = controls_b,
         sd_a = sd_a,
         sd_b = sd_b,
+        alternative_a = alternative_a,
+        alternative_b = alternative_b,
         sample_size = sample_size,
         correlation = correlation,
         show_plot = show_plot,

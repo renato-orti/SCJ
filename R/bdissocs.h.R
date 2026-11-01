@@ -6,18 +6,21 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Options,
     public = list(
         initialize = function(
-            case_a = 0,
-            case_b = 0,
-            controls_a = 0,
-            controls_b = 0,
-            sd_a = 0,
-            sd_b = 0,
-            sample_size = 0,
-            correlation = 0,
+            case_a = 35,
+            case_b = 48,
+            controls_a = 50,
+            controls_b = 50,
+            sd_a = 10,
+            sd_b = 10,
+            alternative_a = "less",
+            alternative_b = "less",
+            sample_size = 20,
+            correlation = 0.5,
+            unstandardised = FALSE,
             credible_interval = TRUE,
             credible_level = 95,
-            iter = 1000,
-            unstandardised = FALSE,
+            iter = 10000,
+            seed = 42,
             show_plot = FALSE,
             show_txt_output = FALSE, ...) {
 
@@ -30,35 +33,58 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..case_a <- jmvcore::OptionNumber$new(
                 "case_a",
                 case_a,
-                default=0)
+                default=35)
             private$..case_b <- jmvcore::OptionNumber$new(
                 "case_b",
                 case_b,
-                default=0)
+                default=48)
             private$..controls_a <- jmvcore::OptionNumber$new(
                 "controls_a",
                 controls_a,
-                default=0)
+                default=50)
             private$..controls_b <- jmvcore::OptionNumber$new(
                 "controls_b",
                 controls_b,
-                default=0)
+                default=50)
             private$..sd_a <- jmvcore::OptionNumber$new(
                 "sd_a",
                 sd_a,
-                default=0)
+                default=10,
+                min=0.001)
             private$..sd_b <- jmvcore::OptionNumber$new(
                 "sd_b",
                 sd_b,
-                default=0)
+                default=10,
+                min=0.001)
+            private$..alternative_a <- jmvcore::OptionList$new(
+                "alternative_a",
+                alternative_a,
+                options=list(
+                    "less",
+                    "greater"),
+                default="less")
+            private$..alternative_b <- jmvcore::OptionList$new(
+                "alternative_b",
+                alternative_b,
+                options=list(
+                    "less",
+                    "greater"),
+                default="less")
             private$..sample_size <- jmvcore::OptionInteger$new(
                 "sample_size",
                 sample_size,
-                default=0)
+                default=20,
+                min=4)
             private$..correlation <- jmvcore::OptionNumber$new(
                 "correlation",
                 correlation,
-                default=0)
+                default=0.5,
+                min=-1,
+                max=1)
+            private$..unstandardised <- jmvcore::OptionBool$new(
+                "unstandardised",
+                unstandardised,
+                default=FALSE)
             private$..credible_interval <- jmvcore::OptionBool$new(
                 "credible_interval",
                 credible_interval,
@@ -66,17 +92,20 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..credible_level <- jmvcore::OptionInteger$new(
                 "credible_level",
                 credible_level,
-                default=95)
+                default=95,
+                min=50,
+                max=99)
             private$..iter <- jmvcore::OptionInteger$new(
                 "iter",
                 iter,
-                default=1000,
-                min=1,
-                max=10000000)
-            private$..unstandardised <- jmvcore::OptionBool$new(
-                "unstandardised",
-                unstandardised,
-                default=FALSE)
+                default=10000,
+                min=1000,
+                max=1000000)
+            private$..seed <- jmvcore::OptionInteger$new(
+                "seed",
+                seed,
+                default=42,
+                min=1)
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
@@ -92,12 +121,15 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..controls_b)
             self$.addOption(private$..sd_a)
             self$.addOption(private$..sd_b)
+            self$.addOption(private$..alternative_a)
+            self$.addOption(private$..alternative_b)
             self$.addOption(private$..sample_size)
             self$.addOption(private$..correlation)
+            self$.addOption(private$..unstandardised)
             self$.addOption(private$..credible_interval)
             self$.addOption(private$..credible_level)
             self$.addOption(private$..iter)
-            self$.addOption(private$..unstandardised)
+            self$.addOption(private$..seed)
             self$.addOption(private$..show_plot)
             self$.addOption(private$..show_txt_output)
         }),
@@ -108,12 +140,15 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         controls_b = function() private$..controls_b$value,
         sd_a = function() private$..sd_a$value,
         sd_b = function() private$..sd_b$value,
+        alternative_a = function() private$..alternative_a$value,
+        alternative_b = function() private$..alternative_b$value,
         sample_size = function() private$..sample_size$value,
         correlation = function() private$..correlation$value,
+        unstandardised = function() private$..unstandardised$value,
         credible_interval = function() private$..credible_interval$value,
         credible_level = function() private$..credible_level$value,
         iter = function() private$..iter$value,
-        unstandardised = function() private$..unstandardised$value,
+        seed = function() private$..seed$value,
         show_plot = function() private$..show_plot$value,
         show_txt_output = function() private$..show_txt_output$value),
     private = list(
@@ -123,12 +158,15 @@ bdissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..controls_b = NA,
         ..sd_a = NA,
         ..sd_b = NA,
+        ..alternative_a = NA,
+        ..alternative_b = NA,
         ..sample_size = NA,
         ..correlation = NA,
+        ..unstandardised = NA,
         ..credible_interval = NA,
         ..credible_level = NA,
         ..iter = NA,
-        ..unstandardised = NA,
+        ..seed = NA,
         ..show_plot = NA,
         ..show_txt_output = NA)
 )
@@ -147,11 +185,15 @@ bdissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="B-DISSOCS")
+                title="Bayesian Dissociation Test",
+                refs=list(
+                    "singcar",
+                    "crawfordgarthwaite2005",
+                    "crawfordgarthwaite2007"))
             self$add(jmvcore::Table$new(
                 options=options,
                 name="classTable",
-                title="Clinical Classification",
+                title="Dissociation Classification",
                 rows=1,
                 clearWith=list(
                     "case_a",
@@ -160,11 +202,15 @@ bdissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "controls_b",
                     "sd_a",
                     "sd_b",
+                    "alternative_a",
+                    "alternative_b",
                     "sample_size",
                     "correlation",
+                    "unstandardised",
+                    "credible_interval",
                     "credible_level",
                     "iter",
-                    "unstandardised"),
+                    "seed"),
                 columns=list(
                     list(
                         `name`="score_a", 
@@ -181,7 +227,7 @@ bdissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Table$new(
                 options=options,
                 name="resultsTable",
-                title="Statistical Results (TD & BSDT)",
+                title="Bayesian Dissociation Test (B-DISSOCS) - Single Case Comparison",
                 rows=1,
                 clearWith=list(
                     "case_a",
@@ -190,55 +236,69 @@ bdissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "controls_b",
                     "sd_a",
                     "sd_b",
+                    "alternative_a",
+                    "alternative_b",
                     "sample_size",
                     "correlation",
+                    "unstandardised",
+                    "credible_interval",
                     "credible_level",
                     "iter",
-                    "unstandardised"),
+                    "seed"),
                 columns=list(
                     list(
-                        `name`="iter", 
-                        `title`="Iterations", 
-                        `type`="integer"),
+                        `name`="z_cc_a", 
+                        `title`="Z-CC (Task A)", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="p_val_a", 
+                        `title`="p (Task A)", 
+                        `type`="number", 
+                        `format`="zto,pvalue"),
+                    list(
+                        `name`="z_cc_b", 
+                        `title`="Z-CC (Task B)", 
+                        `type`="number", 
+                        `format`="zto"),
+                    list(
+                        `name`="p_val_b", 
+                        `title`="p (Task B)", 
+                        `type`="number", 
+                        `format`="zto,pvalue"),
+                    list(
+                        `name`="z_dcc", 
+                        `title`="Z-DCC", 
+                        `type`="number", 
+                        `format`="zto"),
                     list(
                         `name`="df", 
                         `title`="df", 
                         `type`="integer"),
                     list(
-                        `name`="p_val_a", 
-                        `title`="p (Task A)", 
-                        `type`="number", 
-                        `format`="zto, pvalue"),
-                    list(
-                        `name`="z_cc_a", 
-                        `title`="Z-CC (Task A)", 
-                        `type`="number", 
-                        `format`="dp:2"),
-                    list(
-                        `name`="p_val_b", 
-                        `title`="p (Task B)", 
-                        `type`="number", 
-                        `format`="zto, pvalue"),
-                    list(
-                        `name`="z_cc_b", 
-                        `title`="Z-CC (Task B)", 
-                        `type`="number", 
-                        `format`="dp:2"),
-                    list(
                         `name`="p_val_ab", 
                         `title`="p (Task A - B)", 
                         `type`="number", 
-                        `format`="zto, pvalue"),
-                    list(
-                        `name`="z_dcc", 
-                        `title`="Z-DCC", 
-                        `type`="number", 
-                        `format`="dp:2"),
+                        `format`="zto,pvalue"),
                     list(
                         `name`="point_estim", 
                         `title`="Abnormality (%)", 
                         `type`="number", 
-                        `format`="dp:2"))))
+                        `format`="zto"),
+                    list(
+                        `name`="ci_lower", 
+                        `title`="Lower", 
+                        `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Credible Interval", 
+                        `visible`="(credible_interval)"),
+                    list(
+                        `name`="ci_upper", 
+                        `title`="Upper", 
+                        `type`="number", 
+                        `format`="zto", 
+                        `superTitle`="Credible Interval", 
+                        `visible`="(credible_interval)"))))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
@@ -246,11 +306,19 @@ bdissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))
+                visible="(show_plot)",
+                clearWith=list(
+                    "case_a",
+                    "case_b",
+                    "controls_a",
+                    "controls_b",
+                    "sd_a",
+                    "sd_b",
+                    "iter")))
             self$add(jmvcore::Preformatted$new(
                 options=options,
                 name="txtOutput",
-                title="Detailed Text Output",
+                title="Bayesian Dissociation Test - Raw R Text Output",
                 visible="(show_txt_output)"))}))
 
 bdissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -261,7 +329,7 @@ bdissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "bdissocs",
-                version = c(1,0,0),
+                version = c(1,1,0),
                 options = options,
                 results = bdissocsResults$new(options=options),
                 data = data,
@@ -274,7 +342,7 @@ bdissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'na')
         }))
 
-#' B-DISSOCS
+#' Bayesian Dissociation Test
 #'
 #' 
 #' @param case_a .
@@ -283,12 +351,15 @@ bdissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param controls_b .
 #' @param sd_a .
 #' @param sd_b .
+#' @param alternative_a .
+#' @param alternative_b .
 #' @param sample_size .
 #' @param correlation .
+#' @param unstandardised .
 #' @param credible_interval .
 #' @param credible_level .
 #' @param iter .
-#' @param unstandardised .
+#' @param seed .
 #' @param show_plot .
 #' @param show_txt_output .
 #' @return A results object containing:
@@ -307,18 +378,21 @@ bdissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'
 #' @export
 bdissocs <- function(
-    case_a = 0,
-    case_b = 0,
-    controls_a = 0,
-    controls_b = 0,
-    sd_a = 0,
-    sd_b = 0,
-    sample_size = 0,
-    correlation = 0,
+    case_a = 35,
+    case_b = 48,
+    controls_a = 50,
+    controls_b = 50,
+    sd_a = 10,
+    sd_b = 10,
+    alternative_a = "less",
+    alternative_b = "less",
+    sample_size = 20,
+    correlation = 0.5,
+    unstandardised = FALSE,
     credible_interval = TRUE,
     credible_level = 95,
-    iter = 1000,
-    unstandardised = FALSE,
+    iter = 10000,
+    seed = 42,
     show_plot = FALSE,
     show_txt_output = FALSE) {
 
@@ -333,12 +407,15 @@ bdissocs <- function(
         controls_b = controls_b,
         sd_a = sd_a,
         sd_b = sd_b,
+        alternative_a = alternative_a,
+        alternative_b = alternative_b,
         sample_size = sample_size,
         correlation = correlation,
+        unstandardised = unstandardised,
         credible_interval = credible_interval,
         credible_level = credible_level,
         iter = iter,
-        unstandardised = unstandardised,
+        seed = seed,
         show_plot = show_plot,
         show_txt_output = show_txt_output)
 
