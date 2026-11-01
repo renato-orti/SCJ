@@ -15,8 +15,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             credible_level = 95,
             iter = 10000,
             seed = 42,
-            show_plot = FALSE,
-            show_txt_output = FALSE, ...) {
+            show_plot = FALSE, ...) {
 
             super$initialize(
                 package="SCJ",
@@ -75,10 +74,6 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "show_plot",
                 show_plot,
                 default=FALSE)
-            private$..show_txt_output <- jmvcore::OptionBool$new(
-                "show_txt_output",
-                show_txt_output,
-                default=FALSE)
 
             self$.addOption(private$..case)
             self$.addOption(private$..controls)
@@ -90,7 +85,6 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..iter)
             self$.addOption(private$..seed)
             self$.addOption(private$..show_plot)
-            self$.addOption(private$..show_txt_output)
         }),
     active = list(
         case = function() private$..case$value,
@@ -102,8 +96,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         credible_level = function() private$..credible_level$value,
         iter = function() private$..iter$value,
         seed = function() private$..seed$value,
-        show_plot = function() private$..show_plot$value,
-        show_txt_output = function() private$..show_txt_output$value),
+        show_plot = function() private$..show_plot$value),
     private = list(
         ..case = NA,
         ..controls = NA,
@@ -114,8 +107,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..credible_level = NA,
         ..iter = NA,
         ..seed = NA,
-        ..show_plot = NA,
-        ..show_txt_output = NA)
+        ..show_plot = NA)
 )
 
 btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -123,8 +115,7 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         resultsTable = function() private$.items[["resultsTable"]],
-        plot = function() private$.items[["plot"]],
-        textOutput = function() private$.items[["textOutput"]]),
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -197,12 +188,7 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "controls",
                     "sd",
                     "iter",
-                    "seed")))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="textOutput",
-                title="Bayesian Test of Deficit - Raw R Text Output",
-                visible="(show_txt_output)"))}))
+                    "seed")))}))
 
 btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "btdBase",
@@ -238,12 +224,10 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param iter .
 #' @param seed .
 #' @param show_plot .
-#' @param show_txt_output .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$resultsTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$textOutput} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -263,8 +247,7 @@ btd <- function(
     credible_level = 95,
     iter = 10000,
     seed = 42,
-    show_plot = FALSE,
-    show_txt_output = FALSE) {
+    show_plot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("btd requires jmvcore to be installed (restart may be required)")
@@ -280,8 +263,7 @@ btd <- function(
         credible_level = credible_level,
         iter = iter,
         seed = seed,
-        show_plot = show_plot,
-        show_txt_output = show_txt_output)
+        show_plot = show_plot)
 
     analysis <- btdClass$new(
         options = options,

@@ -132,9 +132,6 @@ rsdtClass <- if (
           paste0("Hypothesis: ", alt_out, ".", "\n", 
                  "Theoretical criteria: Revised Standardised Difference Test (RSDT; Crawford & Garthwaite, 2005)."))
         
-      # Text Output Compilation
-        txt_output <- paste(capture.output(res), collapse = "\n")
-        self$results$txtOutput$setContent(txt_output)
       },
       
       .plot = function(image, ggtheme, theme, ...) {

@@ -91,8 +91,3 @@ options:
       title: Show Plot
       type: Bool
       default: false
-    
-    - name: show_txt_output      # Command for text output   
-      title: Show Raw R Output
-      type: Bool
-      default: false

@@ -16,8 +16,7 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             alternative_b = "less",
             sample_size = 20,
             correlation = 0.5,
-            show_plot = FALSE,
-            show_txt_output = FALSE, ...) {
+            show_plot = FALSE, ...) {
 
             super$initialize(
                 package="SCJ",
@@ -80,10 +79,6 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "show_plot",
                 show_plot,
                 default=FALSE)
-            private$..show_txt_output <- jmvcore::OptionBool$new(
-                "show_txt_output",
-                show_txt_output,
-                default=FALSE)
 
             self$.addOption(private$..case_a)
             self$.addOption(private$..case_b)
@@ -96,7 +91,6 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..sample_size)
             self$.addOption(private$..correlation)
             self$.addOption(private$..show_plot)
-            self$.addOption(private$..show_txt_output)
         }),
     active = list(
         case_a = function() private$..case_a$value,
@@ -109,8 +103,7 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         alternative_b = function() private$..alternative_b$value,
         sample_size = function() private$..sample_size$value,
         correlation = function() private$..correlation$value,
-        show_plot = function() private$..show_plot$value,
-        show_txt_output = function() private$..show_txt_output$value),
+        show_plot = function() private$..show_plot$value),
     private = list(
         ..case_a = NA,
         ..case_b = NA,
@@ -122,8 +115,7 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..alternative_b = NA,
         ..sample_size = NA,
         ..correlation = NA,
-        ..show_plot = NA,
-        ..show_txt_output = NA)
+        ..show_plot = NA)
 )
 
 dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -132,8 +124,7 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         classTable = function() private$.items[["classTable"]],
         resultsTable = function() private$.items[["resultsTable"]],
-        plot = function() private$.items[["plot"]],
-        txtOutput = function() private$.items[["txtOutput"]]),
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -232,12 +223,7 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="txtOutput",
-                title="Dissociation Test Raw R Output",
-                visible="(show_txt_output)"))}))
+                visible="(show_plot)"))}))
 
 dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "dissocsBase",
@@ -274,13 +260,11 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param sample_size .
 #' @param correlation .
 #' @param show_plot .
-#' @param show_txt_output .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$classTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$resultsTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$txtOutput} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -301,8 +285,7 @@ dissocs <- function(
     alternative_b = "less",
     sample_size = 20,
     correlation = 0.5,
-    show_plot = FALSE,
-    show_txt_output = FALSE) {
+    show_plot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("dissocs requires jmvcore to be installed (restart may be required)")
@@ -319,8 +302,7 @@ dissocs <- function(
         alternative_b = alternative_b,
         sample_size = sample_size,
         correlation = correlation,
-        show_plot = show_plot,
-        show_txt_output = show_txt_output)
+        show_plot = show_plot)
 
     analysis <- dissocsClass$new(
         options = options,

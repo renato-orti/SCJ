@@ -99,9 +99,6 @@ dissocsClass <- if (
       # Populate results tables and generate report
         private$.populateTables(res_rsdt, res_td_a, res_td_b, alt_a, alt_b)
         
-        if (isTRUE(self$options$show_txt_output)) {
-          private$.buildReport(res_rsdt, res_td_a, res_td_b)
-        }
       },
       
       .populateTables = function(res_rsdt, res_td_a, res_td_b, alt_a, alt_b) {
@@ -165,23 +162,6 @@ dissocsClass <- if (
           paste0("Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b, "), Difference (Case ≠ Controls).", 
                  "Theoretical criteria: Revised Standardised Difference Test (RSDT; Crawford & Garthwaite, 2005)."))
         },
-      
-      .buildReport = function(res_rsdt, res_td_a, res_td_b) {
-        out_rsdt <- capture.output(res_rsdt)
-        out_td_a <- capture.output(res_td_a)
-        out_td_b <- capture.output(res_td_b)
-        
-        report <- paste(
-          "--- TEST DIFFERENCES BETWEEN TASKS (RSDT) ---", 
-          paste(out_rsdt, collapse = "\n"),
-          "\n--- TEST DIFFERENCE CASE CONTROL TASK A (TD) ---",
-          paste(out_td_a, collapse = "\n"),
-          "\n--- TEST DIFFERENCE CASE CONTROL TASK B (TD) ---",
-          paste(out_td_b, collapse = "\n"),
-          sep = "\n"
-        )
-        self$results$txtOutput$setContent(report)
-      },
       
       .plot = function(image, ggtheme, theme, ...) {
         case_a     <- self$options$case_a

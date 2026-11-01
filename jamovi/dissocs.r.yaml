@@ -126,7 +126,3 @@ items:
       renderFun: .plot
       visible: (show_plot)
       
-    - name: txtOutput
-      title: Dissociation Test Raw R Output
-      type: Preformatted
-      visible: (show_txt_output)

@@ -167,8 +167,4 @@ items:
           - sd_a
           - sd_b
           - iter
-      
-    - name: txtOutput
-      title: Bayesian Dissociation Test - Raw R Text Output
-      type:  Preformatted
-      visible: (show_txt_output)
+          

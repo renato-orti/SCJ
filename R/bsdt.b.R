@@ -156,10 +156,7 @@ bsdtClass <- if (
           paste0("Hypothesis: ", alt_out, ".", "\n",
                  "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2007).",
                  "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."))
-        
-        # Text Output Compilation
-        txt_output <- paste(capture.output(res), collapse = "\n")
-        self$results$txtOutput$setContent(txt_output)
+
       },
       
       .plot = function(image, ggtheme, theme, ...) {

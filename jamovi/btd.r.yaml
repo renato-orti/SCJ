@@ -84,8 +84,4 @@ items:
       - sd
       - iter
       - seed
-
-  - name: textOutput
-    title: Bayesian Test of Deficit - Raw R Text Output
-    type: Preformatted
-    visible: (show_txt_output)
+      

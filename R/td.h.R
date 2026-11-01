@@ -13,8 +13,7 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             alternative = "two.sided",
             confidence_interval = TRUE,
             confidence_level = 95,
-            show_plot = FALSE,
-            show_txt_output = FALSE, ...) {
+            show_plot = FALSE, ...) {
 
             super$initialize(
                 package="SCJ",
@@ -62,10 +61,6 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "show_plot",
                 show_plot,
                 default=FALSE)
-            private$..show_txt_output <- jmvcore::OptionBool$new(
-                "show_txt_output",
-                show_txt_output,
-                default=FALSE)
 
             self$.addOption(private$..case)
             self$.addOption(private$..controls)
@@ -75,7 +70,6 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..confidence_interval)
             self$.addOption(private$..confidence_level)
             self$.addOption(private$..show_plot)
-            self$.addOption(private$..show_txt_output)
         }),
     active = list(
         case = function() private$..case$value,
@@ -85,8 +79,7 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         alternative = function() private$..alternative$value,
         confidence_interval = function() private$..confidence_interval$value,
         confidence_level = function() private$..confidence_level$value,
-        show_plot = function() private$..show_plot$value,
-        show_txt_output = function() private$..show_txt_output$value),
+        show_plot = function() private$..show_plot$value),
     private = list(
         ..case = NA,
         ..controls = NA,
@@ -95,8 +88,7 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..alternative = NA,
         ..confidence_interval = NA,
         ..confidence_level = NA,
-        ..show_plot = NA,
-        ..show_txt_output = NA)
+        ..show_plot = NA)
 )
 
 tdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -104,8 +96,7 @@ tdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         resultsTable = function() private$.items[["resultsTable"]],
-        plot = function() private$.items[["plot"]],
-        txtOutput = function() private$.items[["txtOutput"]]),
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -179,12 +170,7 @@ tdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "case",
                     "controls",
-                    "sd")))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="txtOutput",
-                title="Test of Deficit - Raw R Text Output",
-                visible="(show_txt_output)"))}))
+                    "sd")))}))
 
 tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "tdBase",
@@ -218,12 +204,10 @@ tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param confidence_interval .
 #' @param confidence_level .
 #' @param show_plot .
-#' @param show_txt_output .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$resultsTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$txtOutput} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -241,8 +225,7 @@ td <- function(
     alternative = "two.sided",
     confidence_interval = TRUE,
     confidence_level = 95,
-    show_plot = FALSE,
-    show_txt_output = FALSE) {
+    show_plot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("td requires jmvcore to be installed (restart may be required)")
@@ -256,8 +239,7 @@ td <- function(
         alternative = alternative,
         confidence_interval = confidence_interval,
         confidence_level = confidence_level,
-        show_plot = show_plot,
-        show_txt_output = show_txt_output)
+        show_plot = show_plot)
 
     analysis <- tdClass$new(
         options = options,

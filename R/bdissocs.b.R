@@ -117,9 +117,6 @@ bdissocsClass <- if (
         # Populate results tables and generate report
         private$.populateTables(res_bsdt, res_btd_a, res_btd_b, seed_val, iter, alt_a, alt_b, credible_interval, credible_level)
         
-        if (isTRUE(self$options$show_txt_output)) {
-          private$.buildReport(res_bsdt, res_btd_a, res_btd_b)
-        }
       },
       
       .populateTables = function(res_bsdt, res_btd_a, res_btd_b, seed_val, iter, alt_a, alt_b, credible_interval, credible_level) {
@@ -197,23 +194,6 @@ bdissocsClass <- if (
                  "Theoretical criteria: Bayesian Standardized Difference Test (BSDT; Crawford & Garthwaite, 2005, 2007).", 
                  "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."))
         
-        },
-      
-      .buildReport = function(res_bsdt, res_btd_a, res_btd_b) {
-        out_bsdt   <- capture.output(res_bsdt)
-        out_bstd_a <- capture.output(res_btd_a)
-        out_bstd_b <- capture.output(res_btd_b)
-        
-        report <- paste(
-          "--- TEST DIFFERENCES BETWEEN TASKS (BSDT) ---", 
-          paste(out_bsdt, collapse = "\n"),
-          "\n--- TEST DIFFERENCE CASE CONTROL TASK A (BTD) ---",
-          paste(out_bstd_a, collapse = "\n"),
-          "\n--- TEST DIFFERENCE CASE CONTROL TASK B (BTD) ---",
-          paste(out_bstd_b, collapse = "\n"),
-          sep = "\n"
-        )
-        self$results$txtOutput$setContent(report)
       },
       
       .plot = function(image, ggtheme, theme, ...) {

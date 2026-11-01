@@ -133,10 +133,7 @@ btdClass <- if (
                  "Theoretical criteria: Bayesian Test of Deficit (BTD; Crawford & Garthwaite, 2007). ",
                  "Monte Carlo simulations based on ", format(iter, big.mark = ","), 
                  " iterations (random seed: ", seed_val, ")."))
-        
-      # Text Output Compilation
-        txt_output <- paste(capture.output(res), collapse = "\n")
-        self$results$textOutput$setContent(txt_output)
+
       },
       
       .plot = function(image, ggtheme, theme, ...) {

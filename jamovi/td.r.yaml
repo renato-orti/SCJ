@@ -101,7 +101,3 @@ items:
           - controls
           - sd
       
-    - name: txtOutput
-      title: Test of Deficit - Raw R Text Output
-      type: Preformatted
-      visible: (show_txt_output)

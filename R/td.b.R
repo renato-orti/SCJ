@@ -127,9 +127,6 @@ tdClass <- if (
                  "Theoretical criteria: Modified t-test (TD; Crawford & Howell, 1998).")
         )
         
-      # Text Output Compilation
-        txt_output <- paste(capture.output(res), collapse = "\n")
-        self$results$txtOutput$setContent(txt_output)
       },
       
       .plot = function(image, ggtheme, theme, ...) {

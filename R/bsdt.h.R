@@ -20,8 +20,7 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             credible_level = 95,
             iter = 10000,
             seed = 42,
-            show_plot = FALSE,
-            show_txt_output = FALSE, ...) {
+            show_plot = FALSE, ...) {
 
             super$initialize(
                 package="SCJ",
@@ -93,7 +92,7 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 iter,
                 default=10000,
                 min=1000,
-                max=10000000)
+                max=1000000)
             private$..seed <- jmvcore::OptionInteger$new(
                 "seed",
                 seed,
@@ -102,10 +101,6 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..show_plot <- jmvcore::OptionBool$new(
                 "show_plot",
                 show_plot,
-                default=FALSE)
-            private$..show_txt_output <- jmvcore::OptionBool$new(
-                "show_txt_output",
-                show_txt_output,
                 default=FALSE)
 
             self$.addOption(private$..case_a)
@@ -123,7 +118,6 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..iter)
             self$.addOption(private$..seed)
             self$.addOption(private$..show_plot)
-            self$.addOption(private$..show_txt_output)
         }),
     active = list(
         case_a = function() private$..case_a$value,
@@ -140,8 +134,7 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         credible_level = function() private$..credible_level$value,
         iter = function() private$..iter$value,
         seed = function() private$..seed$value,
-        show_plot = function() private$..show_plot$value,
-        show_txt_output = function() private$..show_txt_output$value),
+        show_plot = function() private$..show_plot$value),
     private = list(
         ..case_a = NA,
         ..case_b = NA,
@@ -157,8 +150,7 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..credible_level = NA,
         ..iter = NA,
         ..seed = NA,
-        ..show_plot = NA,
-        ..show_txt_output = NA)
+        ..show_plot = NA)
 )
 
 bsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -166,8 +158,7 @@ bsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     inherit = jmvcore::Group,
     active = list(
         resultsTable = function() private$.items[["resultsTable"]],
-        plot = function() private$.items[["plot"]],
-        txtOutput = function() private$.items[["txtOutput"]]),
+        plot = function() private$.items[["plot"]]),
     private = list(),
     public=list(
         initialize=function(options) {
@@ -256,12 +247,7 @@ bsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "controls_a",
                     "controls_b",
                     "sd_a",
-                    "sd_b")))
-            self$add(jmvcore::Preformatted$new(
-                options=options,
-                name="txtOutput",
-                title="Bayesian Standardised Difference Test - Raw R Text Output",
-                visible="(show_txt_output)"))}))
+                    "sd_b")))}))
 
 bsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "bsdtBase",
@@ -302,12 +288,10 @@ bsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param iter .
 #' @param seed .
 #' @param show_plot .
-#' @param show_txt_output .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$resultsTable} \tab \tab \tab \tab \tab a table \cr
 #'   \code{results$plot} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$txtOutput} \tab \tab \tab \tab \tab a preformatted \cr
 #' }
 #'
 #' Tables can be converted to data frames with \code{asDF} or \code{\link{as.data.frame}}. For example:
@@ -332,8 +316,7 @@ bsdt <- function(
     credible_level = 95,
     iter = 10000,
     seed = 42,
-    show_plot = FALSE,
-    show_txt_output = FALSE) {
+    show_plot = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("bsdt requires jmvcore to be installed (restart may be required)")
@@ -354,8 +337,7 @@ bsdt <- function(
         credible_level = credible_level,
         iter = iter,
         seed = seed,
-        show_plot = show_plot,
-        show_txt_output = show_txt_output)
+        show_plot = show_plot)
 
     analysis <- bsdtClass$new(
         options = options,
