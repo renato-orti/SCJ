@@ -3,9 +3,9 @@
 # Reference: Crawford, J. R., & Garthwaite, P. H. (2007)
 # =================================================================================================
 
-test_that("B-DISSOCS evaluates Bayesian criteria reproducibly via BSDT", {
+test_that("bdissocs evaluates Bayesian criteria reproducibly", {
   set.seed(42)
-  res <- singcar::BSDT(
+  res <- SCJ::bdissocs(
     case_a = 60,
     case_b = 100,
     controls_a = 100,
@@ -13,12 +13,16 @@ test_that("B-DISSOCS evaluates Bayesian criteria reproducibly via BSDT", {
     sd_a = 15,
     sd_b = 15,
     sample_size = 20,
-    r_ab = 0.6,
-    alternative = "less",
-    int_level = 0.95,
-    iter = 10000
-  )
+    correlation = 0.6,
+    alternative_a = "less",
+    alternative_b = "less",
+    credible_level = 95,
+    credible_interval = TRUE,
+    iter = 10000,
+    seed = 42
+    )
   
-  expect_true(!is.null(res$p.value))
-  expect_true(res$p.value >= 0 && res$p.value <= 1)
+  res_table <- res$resultsTable$asDF
+  expect_true(!is.null(res_table$p_val_ab[1]))
+  expect_true(res_table$p_val_ab[1] >= 0 && res_table$p_val_ab[1] <= 1)
 })

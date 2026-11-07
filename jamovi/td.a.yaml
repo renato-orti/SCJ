@@ -33,54 +33,54 @@ title: Test of Deficit
 menuTitle: Test of Deficit
 menuSubtitle: TD
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case                 # Case Score (namely "case" in singcar::TD)
-      title: Case Score
+      title: Case score
       type: Number
       default: 35.0
       
     - name: controls             # Controls Score (namely "controls" in singcar::TD)
-      title: Controls Mean
+      title: Control mean
       type: Number
       default: 50.0
       
     - name: sd                   # SD of controls Score (namely "sd" in singcar::TD)
-      title: Controls SD
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sample_size          # Sample size of controls (namely "sample_size" in singcar::TD)
-      title: Controls Sample Size
+      title: Control sample size
       type: Integer
       default: 20
-      min: 4
+      min: 2
     
     # ---- Hypothesis Testing ----
     - name: alternative
-      title: Hypothesis Testing
+      title: Hypothesis testing
       type: List
       options:
         - name: two.sided
-          title: Two sided (Case ≠ Control)
+          title: Two-sided (case score ≠ control)
         - name: less
-          title: Less (Case < Control)
+          title: Case score lower than control
         - name: greater
-          title: Greater (Case > Control)
+          title: Case score greater than control
       default: two.sided  
     
     # ---- Advanced Input Data ----
     - name: confidence_interval  # Confidence interval toggle
-      title: Confidence Interval (CI)
+      title: Confidence interval
       type: Bool
       default: true
       
     - name: confidence_level     # Level of confidence (namely "conf_level" in singcar::TD)   
-      title: Confidence Level Interval (%)
+      title: Confidence level (%)
       type: Integer
       default: 95
       min: 50
@@ -88,6 +88,6 @@ options:
       
     # ---- Additional Output ----
     - name: show_plot            # Command for graph output
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false

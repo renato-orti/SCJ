@@ -153,7 +153,7 @@ items:
             visible: (credible_interval)
         
     - name: plot
-      title: Case vs Controls Difference of Scores
+      title: Case vs Controls Score Profiles
       type: Image
       width: 500
       height: 350
@@ -166,5 +166,4 @@ items:
           - controls_b
           - sd_a
           - sd_b
-          - iter
           

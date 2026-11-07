@@ -1,7 +1,7 @@
 Package: SCJ
 Type: Package
 Title: Single Case Jamovi (SCJ)
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(
     person("Michela", "Possenti", role = "aut", comment = c(ORCID = "0000-0001-8937-0611")),
     person("Renato", "Orti", email = "renato.orti@unipd.it", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6856-7981"))

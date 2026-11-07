@@ -34,6 +34,7 @@ jrs:   '1.1'
 
 refs:
   - singcar
+  - crawfordhowell1998
   - crawfordgarthwaite2005
 
 items:
@@ -48,6 +49,8 @@ items:
           - controls_b
           - sd_a
           - sd_b
+          - alternative_a
+          - alternative_b
           - sample_size
           - correlation
 
@@ -73,6 +76,8 @@ items:
           - case_b
           - controls_a
           - controls_b
+          - alternative_a
+          - alternative_b
           - sd_a
           - sd_b
           - sample_size
@@ -119,10 +124,16 @@ items:
             format: zto
 
     - name: plot
-      title: Case vs Controls Difference of Scores
+      title: Case vs Controls Score Profiles
       type: Image
       width: 500
       height: 350
       renderFun: .plot
       visible: (show_plot)
-      
+      clearWith:
+          - case_a
+          - case_b
+          - controls_a
+          - controls_b
+          - sd_a
+          - sd_b

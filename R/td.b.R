@@ -60,8 +60,8 @@ tdClass <- if (
           jmvcore::reject("Standard deviation must be strictly positive (> 0).")
           return()
         }
-        if (sample_size <= 3) {
-          jmvcore::reject("Sample size must be an integer greater than 3.")
+        if (sample_size <= 1) {
+          jmvcore::reject("Sample size must be an integer greater than 2.")
           return()
         }
         
@@ -123,7 +123,7 @@ tdClass <- if (
       # Footnote: Unified Hypothesis and Theoretical Criteria Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: ", alt_out, ".", "\n",
+          paste0("Hypothesis: ", alt_out, ". ", "\n",
                  "Theoretical criteria: Modified t-test (TD; Crawford & Howell, 1998).")
         )
         

@@ -68,7 +68,7 @@ dissocsOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "sample_size",
                 sample_size,
                 default=20,
-                min=4)
+                min=2)
             private$..correlation <- jmvcore::OptionNumber$new(
                 "correlation",
                 correlation,
@@ -134,6 +134,7 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 title="Dissociation Test",
                 refs=list(
                     "singcar",
+                    "crawfordhowell1998",
                     "crawfordgarthwaite2005"))
             self$add(jmvcore::Table$new(
                 options=options,
@@ -147,6 +148,8 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "controls_b",
                     "sd_a",
                     "sd_b",
+                    "alternative_a",
+                    "alternative_b",
                     "sample_size",
                     "correlation"),
                 columns=list(
@@ -172,6 +175,8 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "case_b",
                     "controls_a",
                     "controls_b",
+                    "alternative_a",
+                    "alternative_b",
                     "sd_a",
                     "sd_b",
                     "sample_size",
@@ -219,11 +224,18 @@ dissocsResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Case vs Controls Difference of Scores",
+                title="Case vs Controls Score Profiles",
                 width=500,
                 height=350,
                 renderFun=".plot",
-                visible="(show_plot)"))}))
+                visible="(show_plot)",
+                clearWith=list(
+                    "case_a",
+                    "case_b",
+                    "controls_a",
+                    "controls_b",
+                    "sd_a",
+                    "sd_b")))}))
 
 dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "dissocsBase",
@@ -233,7 +245,7 @@ dissocsBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "dissocs",
-                version = c(1,1,0),
+                version = c(1,1,1),
                 options = options,
                 results = dissocsResults$new(options=options),
                 data = data,

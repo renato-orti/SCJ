@@ -33,51 +33,51 @@ title: Revised Standardised Difference Test
 menuTitle: Revised Standardised Difference Test
 menuSubtitle: RSDT
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case_a                 # Case Score on Task A (namely "case_a" in singcar::RSDT)
-      title: Case Score Task A
+      title: Case score
       type: Number
       default: 35.0
       
     - name: case_b                 # Case Score on Task B (namely "case_b" in singcar::RSDT)
-      title: Case Score Task B
+      title: Case score
       type: Number
       default: 48.0
       
     - name: controls_a             # Controls Score on Task A (namely "controls_a" in singcar::RSDT)
-      title: Controls Mean Task A
+      title: Control mean
       type: Number
       default: 50.0
       
     - name: controls_b             # Controls Score on Task B (namely "controls_b" in singcar::RSDT)
-      title: Controls Mean Task B
+      title: Control mean
       type: Number
       default: 50.0
     
     - name: sd_a                   # SD of controls Score on Task A (namely "sd_a" in singcar::RSDT)
-      title: Controls SD Task A
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sd_b                   # SD of controls Score on Task B (namely "sd_b" in singcar::RSDT)
-      title: Controls SD Task B
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sample_size            # Sample size of controls (namely "sample_size" in singcar::RSDT)
-      title: Controls Sample Size
+      title: Control sample size
       type: Integer
       default: 20
-      min: 4
+      min: 2
       
     - name: correlation            # Correlation between Task A and B in controls (namely "r_ab" in singcar::RSDT)
-      title: Correlation A & B 
+      title: Correlation A & B
       type: Number
       default: 0.50
       min: -1.0
@@ -85,19 +85,19 @@ options:
       
      # ---- Hypothesis Testing ----
     - name: alternative            # Alternative hypothesis (namely "alternative" in singcar::RSDT)
-      title: Hypothesis Testing
+      title: Hypothesis testing
       type: List
       options:
         - name: two.sided
-          title: Two sided (Case ≠ Control)
+          title: Two-sided (A − B in case ≠ controls)
         - name: less
-          title: Less (Case < Control)
+          title: Task A lower than Task B, relative to controls
         - name: greater
-          title: Greater (Case > Control)
+          title: Task A higher than Task B, relative to controls
       default: two.sided
 
     # ---- Additional Output ----
     - name: show_plot              # Command to generate a plot of the test
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false

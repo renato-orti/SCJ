@@ -33,51 +33,51 @@ title: Bayesian Standardised Difference Test
 menuTitle: Bayesian Standardised Difference Test
 menuSubtitle: BSDT
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case_a
-      title: Case Score Task A
+      title: Case score
       type: Number
       default: 35.0
       
     - name: case_b
-      title: Case Score Task B
+      title: Case score
       type: Number
       default: 48.0
       
     - name: controls_a
-      title: Controls Mean Task A
+      title: Control mean
       type: Number
       default: 50.0
       
     - name: controls_b
-      title: Controls Mean Task B
+      title: Control mean
       type: Number
       default: 50.0
     
     - name: sd_a
-      title: Controls SD Task A
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sd_b
-      title: Controls SD Task B
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sample_size
-      title: Controls Sample Size
+      title: Control sample size
       type: Integer
       default: 20
       min: 4
       
     - name: correlation
-      title: Correlation A & B 
+      title: Correlation A & B
       type: Number
       default: 0.50
       min: -1.0
@@ -85,51 +85,50 @@ options:
 
     # ---- Hypothesis Testing ----
     - name: alternative
-      title: Hypothesis Testing
+      title: Hypothesis testing
       type: List
       options:
         - name: two.sided
-          title: Two sided (Case ≠ Control)
+          title: Two-sided (A − B in case ≠ controls)
         - name: less
-          title: Less (Case < Control)
+          title: Task A lower than task B, relative to controls
         - name: greater
-          title: Greater (Case > Control)
+          title: Task A higher than task B, relative to controls
       default: two.sided
       
     # ---- Advanced Input Data ----
     - name: unstandardised
-      title: Unstandardised Scores (tasks on the same scale)
+      title: Use unstandardised scores
       type: Bool
       default: false
     
     - name: credible_interval
-      title: Credible Interval (CrI)
+      title: Credible interval
       type: Bool
       default: true
       
     - name: credible_level
-      title: Credible Level Interval (%)
+      title: Credible level (%)
       type: Integer
       default: 95
       min: 50
       max: 99
       
     - name: iter
-      title: Monte Carlo Simulation Iterations
+      title: Iterations
       type: Integer
       default: 10000
       min: 1000
-      max: 1000000
+      max: 10000000
       
     - name: seed
-      title: Random Seed
+      title: Seed
       type: Integer
       default: 42
       min: 1
       
     # ---- Additional Output ----
     - name: show_plot
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false
-    

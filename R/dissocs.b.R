@@ -68,8 +68,8 @@ dissocsClass <- if (
           jmvcore::reject("Standard deviations must be strictly positive (> 0).")
           return()
         }
-        if (sample_size <= 3) {
-          jmvcore::reject("Sample size must be an integer greater than 3.")
+        if (sample_size <= 1) {
+          jmvcore::reject("Sample size must be an integer greater than 1.")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
@@ -136,9 +136,10 @@ dissocsClass <- if (
         dir_note_b <- if (alt_b == "less") "Case < Controls" else "Case > Controls"
         table_class$setNote(
           "criteria_info",
-          paste0("Difference test evaluated two-sided (alternative = 'two.sided'). ",
+          paste0("The difference test is two-sided. ",
                  "Deficit criteria evaluated directional (Task A: ", dir_note_a, 
-                 "; Task B: ", dir_note_b, "; alpha = .05) per Crawford & Garthwaite (2005)."))
+                 "; Task B: ", dir_note_b, "; alpha = .05). Theoretical criteria: Crawford & Garthwaite (2005).")
+        )
         
       # Populate Statistical Results Table
         table_stats <- self$results$resultsTable
@@ -198,7 +199,7 @@ dissocsClass <- if (
           ggplot2::scale_color_manual(values = c("Case" = "#d95f02", "Control Mean" = "#8c96c6")) +
           ggplot2::labs(
             x = "Tasks",
-            y = "Standardized Score (Z-Score)"
+            y = "Standardised Score (Z-Score)"
           ) +
           ggtheme +
           ggplot2::theme(

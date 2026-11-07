@@ -66,8 +66,8 @@ rsdtClass <- if (
           jmvcore::reject("Standard deviations must be strictly positive (> 0).")
           return()
         }
-        if (sample_size <= 3) {
-          jmvcore::reject("Sample size must be an integer greater than 3.")
+        if (sample_size <= 1) {
+          jmvcore::reject("Sample size must be an integer greater than 2.")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
@@ -98,9 +98,9 @@ rsdtClass <- if (
       # Format alternative hypothesis output string
         alt_out <- switch(
           alternative,
-          "two.sided" = "Two Sided (Case ≠ Control)",
-          "less"      = "Less (Case < Control)",
-          "greater"   = "Greater (Case > Control)",
+          "two.sided" = "Two-sided (A − B in case ≠ controls)",
+          "less"      = "Task A lower than Task B, relative to controls",
+          "greater"   = "Task A higher than Task B, relative to controls",
           alternative
         )
         
@@ -129,7 +129,7 @@ rsdtClass <- if (
       # Footnote: Hypothesis and Theoretical Criteria Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: ", alt_out, ".", "\n", 
+          paste0("Hypothesis: ", alt_out, ". ", "\n", 
                  "Theoretical criteria: Revised Standardised Difference Test (RSDT; Crawford & Garthwaite, 2005)."))
         
       },
@@ -170,7 +170,7 @@ rsdtClass <- if (
           ggplot2::scale_color_manual(values = c("Case" = "#d95f02", "Control Mean" = "#8c96c6")) +
           ggplot2::labs(
             x = "Tasks",
-            y = "Standardized Score (Z-Score)"
+            y = "Standardised Score (Z-Score)"
           ) +
           ggtheme +
           ggplot2::theme(

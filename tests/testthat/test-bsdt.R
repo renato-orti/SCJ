@@ -3,9 +3,9 @@
 # Reference: Crawford, J. R., & Garthwaite, P. H. (2007)
 # =================================================================================================
 
-test_that("BSDT delivers reproducible results for discrepancy comparisons", {
+test_that("bsdt delivers reproducible results for discrepancy comparisons", {
   set.seed(42)
-  res <- singcar::BSDT(
+  res <- SCJ::bsdt(
     case_a = 70,
     case_b = 130,
     controls_a = 100,
@@ -13,13 +13,15 @@ test_that("BSDT delivers reproducible results for discrepancy comparisons", {
     sd_a = 15,
     sd_b = 15,
     sample_size = 15,
-    r_ab = 0.5,
+    correlation = 0.5,
     alternative = "two.sided",
-    int_level = 0.95,
-    iter = 10000
-  )
+    credible_level = 95,
+    credible_interval = TRUE,
+    iter = 10000,
+    seed = 42
+    )
   
-  expect_true(!is.null(res$p.value))
-  expect_true(is.numeric(res$interval))
-  expect_equal(length(res$interval), 5) # Level + Z-DCC (Lower, Upper) + Prop (Lower, Upper)
+  res_table <- res$resultsTable$asDF
+  expect_true(!is.null(res_table$p_val[1]))
+  expect_true(is.numeric(res_table$ci_lower[1]))
 })

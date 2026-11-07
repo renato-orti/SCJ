@@ -66,11 +66,7 @@ btdClass <- if (
           return()
         }
         if (sample_size <= 3) {
-          jmvcore::reject("Sample size must be an integer greater than 3.")
-          return()
-        }
-        if (!is.null(iter) && (iter < 1000 || iter > 10000000)) {
-          jmvcore::reject("Number of Monte Carlo iterations must be an integer between 1 and 1,000,000.")
+          jmvcore::reject("The Bayesian Test of Deficit requires a control sample of at least 4.")
           return()
         }
         
@@ -109,7 +105,7 @@ btdClass <- if (
       # Results Table setup
         table_stats <- self$results$resultsTable
         
-        ci_title <- paste0(cred_lev, "% Credible Interval")
+        ci_title <- paste0(cred_lev, "% Credible Interval for Z-CC")
         table_stats$getColumn("ci_lower")$setSuperTitle(ci_title)
         table_stats$getColumn("ci_upper")$setSuperTitle(ci_title)
         
@@ -129,7 +125,7 @@ btdClass <- if (
       # Footnote: Hypothesis, Theoretical Criteria, and Monte Carlo Simulation Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: ", alt_out, ".", "\n",
+          paste0("Hypothesis: ", alt_out, ". ", "\n",
                  "Theoretical criteria: Bayesian Test of Deficit (BTD; Crawford & Garthwaite, 2007). ",
                  "Monte Carlo simulations based on ", format(iter, big.mark = ","), 
                  " iterations (random seed: ", seed_val, ")."))
@@ -158,11 +154,6 @@ btdClass <- if (
         y_vals  <- dnorm(x_vals, mean = controls, sd = sd)
         df_plot <- data.frame(x = x_vals, y = y_vals)
         
-      # Caption formatting for Monte Carlo simulation details
-        caption_txt <- if (!is.null(iter)) {
-          paste0("Monte Carlo iterations: ", format(iter, big.mark = ","), " (seed: ", seed_val, ")")
-        } else NULL
-        
         prob_plot <- ggplot2::ggplot(
           df_plot, 
           ggplot2::aes(x = x, y = y)) +
@@ -173,8 +164,7 @@ btdClass <- if (
                             color = "#d95f02", hjust = -0.1, fontface = "bold") +
           ggplot2::labs(
             x = "Score",
-            y = "Control Density",
-            caption = caption_txt
+            y = "Control Density"
           ) +
           ggtheme
         

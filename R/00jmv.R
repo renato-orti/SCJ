@@ -13,7 +13,7 @@
         `type`="article", 
         `author`="Crawford, J. R., & Howell, D. C.", 
         `year`=1998, 
-        `title`="Comparing an individual's test score against norms derived from small samples in neuropsychology: a modification of Miller's method", 
+        `title`="Comparing an individual's test score against norms derived from small samples.", 
         `publisher`="The Clinical Neuropsychologist", 
         `url`="https://psycnet.apa.org/doi/10.1076/clin.12.4.482.7241"), 
     `crawfordgarthwaite2005`=list(

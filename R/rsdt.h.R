@@ -53,7 +53,7 @@ rsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "sample_size",
                 sample_size,
                 default=20,
-                min=4)
+                min=2)
             private$..correlation <- jmvcore::OptionNumber$new(
                 "correlation",
                 correlation,
@@ -177,7 +177,7 @@ rsdtResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot",
-                title="Case vs Controls Difference of Scores",
+                title="Case vs Controls Score Profiles",
                 width=500,
                 height=350,
                 renderFun=".plot",
@@ -198,7 +198,7 @@ rsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "rsdt",
-                version = c(1,1,0),
+                version = c(1,1,1),
                 options = options,
                 results = rsdtResults$new(options=options),
                 data = data,

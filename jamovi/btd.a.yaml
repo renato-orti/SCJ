@@ -34,75 +34,75 @@ title: Bayesian Test of Deficit
 menuTitle: Bayesian Test of Deficit
 menuSubtitle: BTD
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case                 # Case Score (namely "case" in singcar::BTD)
-      title: Case Score
+      title: Case score
       type: Number
       default: 35.0
       
     - name: controls             # Controls Score (namely "controls" in singcar::BTD)
-      title: Controls Mean
+      title: Control mean
       type: Number
       default: 50.0
       
     - name: sd                   # SD of controls Score (namely "sd" in singcar::BTD)
-      title: Controls SD
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sample_size          # Sample size of controls (namely "sample_size" in singcar::BTD)
-      title: Controls Sample Size
+      title: Control sample size
       type: Integer
       default: 20
       min: 4
       
      # ---- Hypothesis Testing ----
     - name: alternative          # Alternative hypothesis (namely "alternative" in singcar::BTD)
-      title: Hypothesis Testing
+      title: Hypothesis testing
       type: List
       options:
         - name: two.sided
-          title: Two sided (Case ≠ Control)
+          title: Two-sided (case score ≠ control)
         - name: less
-          title: Less (Case < Control)
+          title: Case score lower than control
         - name: greater
-          title: Greater (Case > Control)
+          title: Case score greater than control
       default: two.sided
       
     # ---- Advanced Input Data ----
     - name: credible_interval    # Credible interval toggle
-      title: Credible Interval (CrI)
+      title: Credible interval
       type: Bool
       default: true
       
     - name: credible_level       # Level of credibility (namely "int_level" in singcar::BTD)   
-      title: Credible Level Interval (%)
+      title: Credible level (%)
       type: Integer
       default: 95
       min: 50
       max: 99
       
     - name: iter                 # Number of iterations (namely "iter" in singcar::BTD)
-      title: Monte Carlo Iterations
+      title: Iterations
       type: Integer
       default: 10000
       min: 1000
       max: 10000000
       
     - name: seed                 # Random seed for reproducibility
-      title: Random Seed
+      title: Seed
       type: Integer
       default: 42
       min: 1
       
     # ---- Additional Output ----
     - name: show_plot            # Command for graph output
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false
       

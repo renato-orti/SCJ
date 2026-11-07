@@ -38,7 +38,7 @@ tdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "sample_size",
                 sample_size,
                 default=20,
-                min=4)
+                min=2)
             private$..alternative <- jmvcore::OptionList$new(
                 "alternative",
                 alternative,
@@ -180,7 +180,7 @@ tdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "td",
-                version = c(1,1,0),
+                version = c(1,1,1),
                 options = options,
                 results = tdResults$new(options=options),
                 data = data,

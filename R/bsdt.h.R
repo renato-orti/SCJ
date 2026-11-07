@@ -92,7 +92,7 @@ bsdtOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 iter,
                 default=10000,
                 min=1000,
-                max=1000000)
+                max=10000000)
             private$..seed <- jmvcore::OptionInteger$new(
                 "seed",
                 seed,
@@ -257,7 +257,7 @@ bsdtBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "bsdt",
-                version = c(1,1,0),
+                version = c(1,1,1),
                 options = options,
                 results = bsdtResults$new(options=options),
                 data = data,

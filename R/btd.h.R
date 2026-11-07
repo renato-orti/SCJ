@@ -186,9 +186,7 @@ btdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 clearWith=list(
                     "case",
                     "controls",
-                    "sd",
-                    "iter",
-                    "seed")))}))
+                    "sd")))}))
 
 btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "btdBase",
@@ -198,7 +196,7 @@ btdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "SCJ",
                 name = "btd",
-                version = c(1,1,0),
+                version = c(1,1,1),
                 options = options,
                 results = btdResults$new(options=options),
                 data = data,

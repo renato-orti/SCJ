@@ -39,71 +39,71 @@ title: Bayesian Dissociation Test
 menuTitle: Bayesian Dissociation Test
 menuSubtitle: B-DISSOCS
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case_a                 # Case Score on Task A (namely "case_a" in singcar::BSDT)
-      title: Case Score Task A
+      title: Case score
       type: Number
       default: 35.0
       
     - name: case_b                 # Case Score on Task A (namely "case_b" in singcar::BSDT)
-      title: Case Score Task B
+      title: Case score
       type: Number
       default: 48.0
       
     - name: controls_a             # Controls Score on Task A (namely "controls_a" in singcar::BSDT)
-      title: Controls Mean Task A
+      title: Control mean
       type: Number
       default: 50.0
       
     - name: controls_b             # Controls Score on Task B (namely "controls_b" in singcar::BSDT)
-      title: Controls Mean Task B
+      title: Control mean
       type: Number
       default: 50.0
     
     - name: sd_a                   # SD of controls Score on Task A (namely "sd_a" in singcar::BSDT)
-      title: Controls SD Task A
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: sd_b                   # SD of controls Score on Task B (namely "sd_b" in singcar::BSDT)
-      title: Controls SD Task B
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
       
     - name: alternative_a          # Alternative hypothesis on task A (namely "alternative" in singcar::BSDT)
-      title: "Task A Expected Direction"
+      title: "Task A expected direction"
       type: List
       options:
           - name: less
-            title: "Less (Case < Control)"
+            title: "Less (case < control)"
           - name: greater
-            title: "Greater (Case > Control)"
+            title: "Greater (case > control)"
       default: less
 
     - name: alternative_b          # Alternative hypothesis on task B (namely "alternative" in singcar::BSDT)
-      title: "Task B Expected Direction"
+      title: "Task B expected direction"
       type: List
       options:
           - name: less
-            title: "Less (Case < Control)"
+            title: "Less (case < control)"
           - name: greater
-            title: "Greater (Case > Control)"
+            title: "Greater (case > control)"
       default: less
       
     - name: sample_size            # Sample size of controls (namely "sample_size" in singcar::BSDT)
-      title: Controls Sample Size
+      title: Controls sample size
       type: Integer
       default: 20
       min: 4
       
     - name: correlation            # SD of controls Score on Task B (namely "sd_b" in singcar::BSDT)
-      title: Correlation A & B 
+      title: Correlation A & B
       type: Number
       default: 0.50
       min: -1.0
@@ -111,37 +111,37 @@ options:
     
     # ---- Advanced Input Data ----
     - name: unstandardised         # Command to estimate z-value based on standardised or unstandardised task score
-      title: Unstandardised Scores (tasks on the same scale)
+      title: Unstandardised scores (tasks on the same scale)
       type: Bool
       default: false
       
     - name: credible_interval      # Credibile interval
-      title: Credible Interval (CrI)
+      title: Credible interval
       type: Bool
       default: true
       
     - name: credible_level         # Level of credibility (namely "int_level" in singcar::BSDT)   
-      title: Credible Level Interval (%)
+      title: Credible level (%)
       type: Integer
       default: 95
       min: 50
       max: 99
       
     - name: iter                   # Number of iterations (namely "iter" in singcar::BSDT)
-      title: Monte Carlo Simulation Iterations
+      title: Iterations
       type: Integer
       default: 10000
       min: 1000
-      max: 1000000
+      max: 10000000
       
     - name: seed                   # Random seed for reproducibility
-      title: Random Seed
+      title: Seed
       type: Integer
       default: 42
       min: 1
 
     # ---- Additional Output ----
     - name: show_plot              # Command to generate a plot of the test
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false

@@ -34,39 +34,39 @@ title: Dissociation Test
 menuTitle: Dissociation Test
 menuSubtitle: DISSOCS
 menuGroup: SCJ
-version: '1.1.0'
+version: '1.1.1'
 jas: '1.2'
 
 options:
     # ---- Basic Input Data ----
     - name: case_a
-      title: Case Score Task A
+      title: Case score
       type: Number
       default: 35.0
 
     - name: case_b
-      title: Case Score Task B
+      title: Case score
       type: Number
       default: 48.0
 
     - name: controls_a
-      title: Controls Mean Task A
+      title: Control mean
       type: Number
       default: 50.0
 
     - name: controls_b
-      title: Controls Mean Task B
+      title: Control mean
       type: Number
       default: 50.0
 
     - name: sd_a
-      title: Controls SD Task A
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
 
     - name: sd_b
-      title: Controls SD Task B
+      title: Control SD
       type: Number
       default: 10.0
       min: 0.001
@@ -92,10 +92,10 @@ options:
       default: less
     
     - name: sample_size
-      title: Controls Sample Size
+      title: Control sample size
       type: Integer
       default: 20
-      min: 4
+      min: 2
 
     - name: correlation
       title: Correlation A & B
@@ -106,6 +106,6 @@ options:
 
     # ---- Additional Output ----
     - name: show_plot
-      title: Show Plot
+      title: Plot
       type: Bool
       default: false

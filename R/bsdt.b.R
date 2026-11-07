@@ -76,15 +76,11 @@ bsdtClass <- if (
           return()
         }
         if (sample_size <= 3) {
-          jmvcore::reject("Sample size must be an integer greater than 3.")
+          jmvcore::reject("The Bayesian Standardised Difference Test requires a control sample of at least 4")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
           jmvcore::reject("Correlation coefficient (r) must be between -1 and 1.")
-          return()
-        }
-        if (!is.null(iter) && (iter < 1000 || iter > 1000000)) {
-          jmvcore::reject("Number of Monte Carlo iterations must be an integer between 1 and 1,000,000.")
           return()
         }
         
@@ -119,9 +115,9 @@ bsdtClass <- if (
         # Format alternative hypothesis output string
         alt_out <- switch(
           alternative,
-          "two.sided" = "Two Sided (Case ≠ Control)",
-          "less"      = "Less (Case < Control)",
-          "greater"   = "Greater (Case > Control)",
+          "two.sided" = "Two-sided (A − B in case ≠ controls)",
+          "less"      = "Task A lower than Task B, relative to controls",
+          "greater"   = "Task A higher than Task B, relative to controls",
           alternative
         )
         
@@ -131,7 +127,7 @@ bsdtClass <- if (
         # Results Table Setup
         table_stats <- self$results$resultsTable
         
-        ci_title <- paste0(credible_level, "% Credible Interval")
+        ci_title <- paste0(credible_level, "% Credible Interval for Z-DCC")
         table_stats$getColumn("ci_lower")$setSuperTitle(ci_title)
         table_stats$getColumn("ci_upper")$setSuperTitle(ci_title)
         
@@ -153,8 +149,8 @@ bsdtClass <- if (
         # Footnote: Hypothesis, Theoretical Criteria, and Monte Carlo Simulation Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: ", alt_out, ".", "\n",
-                 "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2007).",
+          paste0("Hypothesis: ", alt_out, ". ", "\n",
+                 "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2007). ",
                  "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."))
 
       },
@@ -189,11 +185,6 @@ bsdtClass <- if (
           Z_Score = c(z_a, z_b, 0, 0)
         )
         
-        # Caption formatting for Monte Carlo simulation details
-        caption_txt <- if (!is.null(iter)) {
-          paste0("Monte Carlo iterations: ", format(iter, big.mark = ","), " (seed: ", seed_val, ")")
-        } else NULL
-        
         profile_plot <- ggplot2::ggplot(
           df_plot, 
           ggplot2::aes(x = Task, y = Z_Score, group = Group, color = Group)) +
@@ -202,8 +193,7 @@ bsdtClass <- if (
           ggplot2::scale_color_manual(values = c("Case" = "#d95f02", "Control Mean" = "#8c96c6")) +
           ggplot2::labs(
             x = "Tasks",
-            y = "Standardized Score (Z-Score)",
-            caption = caption_txt
+            y = "Standardised Score (Z-Score)"
           ) +
           ggtheme +
           ggplot2::theme(
