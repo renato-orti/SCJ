@@ -64,7 +64,7 @@ btdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 iter,
                 default=10000,
                 min=1000,
-                max=10000000)
+                max=1000000)
             private$..seed <- jmvcore::OptionInteger$new(
                 "seed",
                 seed,

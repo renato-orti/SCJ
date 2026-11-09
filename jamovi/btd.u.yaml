@@ -23,7 +23,7 @@ children:
     margin: large
     children:
       - type: Label
-        label: Task parameters
+        label: Task Parameters
         children:
           - type: TextBox
             name: case
@@ -36,14 +36,14 @@ children:
             format: number
 
       - type: Label
-        label: Control sample statistics
+        label: Control Sample Statistics
         children:
           - type: TextBox
             name: sample_size
             format: number
 
       - type: Label
-        label: Hypothesis testing
+        label: Hypothesis Testing
         children:
           - type: RadioButton
             name: alternative_two_sided

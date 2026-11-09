@@ -76,11 +76,11 @@ bsdtClass <- if (
           return()
         }
         if (sample_size <= 3) {
-          jmvcore::reject("The Bayesian Standardised Difference Test requires a control sample of at least 4")
+          jmvcore::reject("The Bayesian Standardised Difference Test requires a control sample of at least 4.")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
-          jmvcore::reject("Correlation coefficient (r) must be between -1 and 1.")
+          jmvcore::reject("The correlation must be strictly between −1 and 1.")
           return()
         }
         
@@ -127,7 +127,11 @@ bsdtClass <- if (
         # Results Table Setup
         table_stats <- self$results$resultsTable
         
-        ci_title <- paste0(credible_level, "% Credible Interval for Z-DCC")
+        ci_title <- if (isTRUE(unstandardised)) {
+          paste0(credible_level, "% Credible Interval (Unstd. discrepancy)")
+        } else {
+          paste0(credible_level, "% Credible Interval for Z-DCC")
+        }
         table_stats$getColumn("ci_lower")$setSuperTitle(ci_title)
         table_stats$getColumn("ci_upper")$setSuperTitle(ci_title)
         
@@ -147,12 +151,17 @@ bsdtClass <- if (
         )
         
         # Footnote: Hypothesis, Theoretical Criteria, and Monte Carlo Simulation Details
-        table_stats$setNote(
-          "info",
-          paste0("Hypothesis: ", alt_out, ". ", "\n",
-                 "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2007). ",
-                 "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."))
-
+        note_text <- paste0(
+          "Hypothesis: ", alt_out, ". ", "\n",
+          "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2007). ", "\n",
+          "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."
+        )
+        
+        if (isTRUE(unstandardised)) {
+          note_text <- paste0(note_text, " Note: The credible interval and p-value use unstandardised scores, while the Z-DCC column does not.")
+        }
+        
+        table_stats$setNote("info", note_text)
       },
       
       .plot = function(image, ggtheme, theme, ...) {
@@ -163,8 +172,6 @@ bsdtClass <- if (
         controls_b <- self$options$controls_b
         sd_a       <- self$options$sd_a
         sd_b       <- self$options$sd_b
-        iter       <- self$options$iter
-        seed_val   <- if (!is.null(self$options$seed)) self$options$seed else 42
         
         if (is.null(case_a) || is.null(case_b) || 
             is.null(controls_a) || is.null(controls_b) || 

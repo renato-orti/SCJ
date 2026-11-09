@@ -93,9 +93,9 @@ btdClass <- if (
       # Format alternative hypothesis output string
         alt_out <- switch(
           alternative,
-          "two.sided" = "Two Sided (Case ≠ Control)",
-          "less"      = "Less (Case < Control)",
-          "greater"   = "Greater (Case > Control)",
+          "two.sided" = "Two-sided (case score ≠ control)",
+          "less"      = "Case score lower than control",
+          "greater"   = "Case score greater than control",
           alternative
         )
         
@@ -126,8 +126,8 @@ btdClass <- if (
         table_stats$setNote(
           "info",
           paste0("Hypothesis: ", alt_out, ". ", "\n",
-                 "Theoretical criteria: Bayesian Test of Deficit (BTD; Crawford & Garthwaite, 2007). ",
-                 "Monte Carlo simulations based on ", format(iter, big.mark = ","), 
+                 "Theoretical criteria: Bayesian Test of Deficit (BTD; Crawford & Garthwaite, 2007). ", "\n",
+                 "Monte Carlo simulations based on ", format(iter, big.mark = ","),
                  " iterations (random seed: ", seed_val, ")."))
 
       },
@@ -137,8 +137,6 @@ btdClass <- if (
         case     <- self$options$case
         controls <- self$options$controls
         sd       <- self$options$sd
-        iter     <- self$options$iter
-        seed_val <- if (!is.null(self$options$seed)) self$options$seed else 42
         
         if (is.null(case) || is.null(controls) || is.null(sd) ||
             is.na(case) || is.na(controls) || is.na(sd) || sd <= 0) {

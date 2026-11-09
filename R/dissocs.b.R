@@ -69,11 +69,11 @@ dissocsClass <- if (
           return()
         }
         if (sample_size <= 1) {
-          jmvcore::reject("Sample size must be an integer greater than 1.")
+          jmvcore::reject("Control sample size must be at least 2.")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
-          jmvcore::reject("Correlation coefficient (r) must be strictly between -1 and 1.")
+          jmvcore::reject("The correlation must be strictly between −1 and 1.")
           return()
         }
         
@@ -137,7 +137,7 @@ dissocsClass <- if (
         table_class$setNote(
           "criteria_info",
           paste0("The difference test is two-sided. ",
-                 "Deficit criteria evaluated directional (Task A: ", dir_note_a, 
+                 "Deficit tests are one-tailed (Task A: ", dir_note_a, 
                  "; Task B: ", dir_note_b, "; alpha = .05). Theoretical criteria: Crawford & Garthwaite (2005).")
         )
         
@@ -160,7 +160,7 @@ dissocsClass <- if (
       # Footnote: Hypothesis and Theoretical Criteria Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b, "), Difference (Case ≠ Controls).", 
+          paste0("Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b, "), Difference (Case ≠ Controls). ", 
                  "Theoretical criteria: Revised Standardised Difference Test (RSDT; Crawford & Garthwaite, 2005)."))
         },
       

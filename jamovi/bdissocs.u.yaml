@@ -26,7 +26,7 @@ children:
         cell: { column: 0, row: 0 }
         children:
           - type: Label
-            label: Task A parameters
+            label: Task A Parameters
             children:
               - type: TextBox
                 name: case_a
@@ -42,7 +42,7 @@ children:
         cell: { column: 1, row: 0 }
         children:
           - type: Label
-            label: Task B parameters
+            label: Task B Parameters
             children:
               - type: TextBox
                 name: case_b
@@ -59,7 +59,7 @@ children:
     margin: large
     children:
       - type: Label
-        label: Control sample statistics
+        label: Control Sample Statistics
         children:
           - type: TextBox
             name: sample_size
@@ -69,7 +69,7 @@ children:
             format: number
 
       - type: Label
-        label: Hypothesis testing
+        label: Hypothesis Testing
         children:
           - type: ComboBox
             name: alternative_a
@@ -78,7 +78,7 @@ children:
 
       # ---- Standardised Scores ----
       - type: Label
-        label: Score scaling
+        label: Score Scaling
         children:
           - type: CheckBox
             name: unstandardised
@@ -106,7 +106,7 @@ children:
 
   # ---- Additional Output ----
   - type: CollapseBox
-    label: Additional output
+    label: Additional Output
     collapsed: true
     children:
       - type: LayoutBox

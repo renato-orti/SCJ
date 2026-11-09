@@ -67,11 +67,11 @@ rsdtClass <- if (
           return()
         }
         if (sample_size <= 1) {
-          jmvcore::reject("Sample size must be an integer greater than 2.")
+          jmvcore::reject("Control sample size must be at least 2.")
           return()
         }
         if (correlation <= -1 || correlation >= 1) {
-          jmvcore::reject("Correlation coefficient (r) must be strictly between -1 and 1.")
+          jmvcore::reject("The correlation must be strictly between −1 and 1.")
           return()
         }
         

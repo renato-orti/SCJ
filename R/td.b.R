@@ -61,7 +61,7 @@ tdClass <- if (
           return()
         }
         if (sample_size <= 1) {
-          jmvcore::reject("Sample size must be an integer greater than 2.")
+          jmvcore::reject("Control sample size must be at least 2.")
           return()
         }
         
@@ -86,12 +86,12 @@ tdClass <- if (
         val_low <- if (isTRUE(conf_int) && !is.null(res$interval)) as.numeric(res$interval[2]) else NA_real_
         val_up  <- if (isTRUE(conf_int) && !is.null(res$interval)) as.numeric(res$interval[3]) else NA_real_
         
-      # Format alternative hypothesis output string
+        # Format alternative hypothesis output string
         alt_out <- switch(
           alternative,
-          "two.sided" = "Two Sided (Case ≠ Control)",
-          "less"      = "Less (Case < Control)",
-          "greater"   = "Greater (Case > Control)",
+          "two.sided" = "Two-sided (case score ≠ control)",
+          "less"      = "Case score lower than control",
+          "greater"   = "Case score greater than control",
           alternative
         )
         

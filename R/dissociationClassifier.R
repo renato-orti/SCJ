@@ -33,8 +33,8 @@ classifyDissociation <- function(p_a, p_b, p_ab, alpha = 0.05) {
   score_b_bool <- p_b <= alpha
   dissoc_bool  <- p_ab <= alpha
   
-  score_a_text <- ifelse(score_a_bool, "Out of normal range", "Normal Range")
-  score_b_text <- ifelse(score_b_bool, "Out of normal range", "Normal Range")
+  score_a_text <- ifelse(score_a_bool, "Out of normal range", "Normal range")
+  score_b_text <- ifelse(score_b_bool, "Out of normal range", "Normal range")
   
   if (dissoc_bool) {
     if (score_a_bool && score_b_bool) {

@@ -23,7 +23,7 @@ children:
     cell: { column: 0, row: 0 }
     children:
       - type: Label
-        label: Task A parameters
+        label: Task A Parameters
         children:
           - type: TextBox
             name: case_a
@@ -39,7 +39,7 @@ children:
     cell: { column: 1, row: 0 }
     children:
       - type: Label
-        label: Task B parameters
+        label: Task B Parameters
         children:
           - type: TextBox
             name: case_b
@@ -56,7 +56,7 @@ children:
     cell: { column: 0, row: 1 }
     children:
       - type: Label
-        label: Control sample statistics
+        label: Control Sample Statistics
         children:
           - type: TextBox
             name: sample_size
@@ -70,7 +70,7 @@ children:
     cell: { column: 0, row: 2 }
     children:
       - type: Label
-        label: Hypothesis testing
+        label: Hypothesis Testing
         children:
           - type: RadioButton
             name: alternative_two_sided
@@ -87,7 +87,7 @@ children:
 
   # ---- Additional Output ----
   - type: CollapseBox
-    label: Additional output
+    label: Additional Output
     collapsed: true
     children:
       - type: LayoutBox

@@ -98,7 +98,7 @@ options:
       
     # ---- Advanced Input Data ----
     - name: unstandardised
-      title: Use unstandardised scores
+      title: Unstandardised scores (tasks on the same scale)
       type: Bool
       default: false
     
@@ -119,7 +119,7 @@ options:
       type: Integer
       default: 10000
       min: 1000
-      max: 10000000
+      max: 1000000
       
     - name: seed
       title: Seed

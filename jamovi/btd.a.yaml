@@ -92,7 +92,7 @@ options:
       type: Integer
       default: 10000
       min: 1000
-      max: 10000000
+      max: 1000000
       
     - name: seed                 # Random seed for reproducibility
       title: Seed

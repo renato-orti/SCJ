@@ -1,13 +1,13 @@
 ---
 title: Single Case Jamovi (SCJ)
 name: SCJ
-version: 1.1.1
+version: 1.1.2
 jms: '1.0'
 authors:
   - Michela Possenti
   - Renato Orti
 maintainer: Renato Orti <renato.orti@unipd.it>
-date: '2026-11-01'
+date: '2026-11-09'
 type: R
 description: >-
   Single Case Jamovi (SCJ) provides a zero-code graphical user interface for
@@ -37,7 +37,7 @@ analyses:
     menuGroup: SCJ
     menuSubgroup: Frequentist
     description: >-
-      Performs the Revised Standardized Difference Test (RSDT) to reliably
+      Performs the Revised Standardised Difference Test (RSDT) to reliably
       compare the difference between two tasks in a single case against a small
       normative sample using frequentist methodology (Crawford & Garthwaite,
       2005).

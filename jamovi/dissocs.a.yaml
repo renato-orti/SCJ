@@ -72,23 +72,23 @@ options:
       min: 0.001
 
     - name: alternative_a
-      title: "Task A Expected Direction"
+      title: "Task A expected direction"
       type: List
       options:
           - name: less
-            title: "Less (Case < Control)"
+            title: "Less (case < control)"
           - name: greater
-            title: "Greater (Case > Control)"
+            title: "Greater (case > control)"
       default: less
 
     - name: alternative_b
-      title: "Task B Expected Direction"
+      title: "Task B expected direction"
       type: List
       options:
           - name: less
-            title: "Less (Case < Control)"
+            title: "Less (case < control)"
           - name: greater
-            title: "Greater (Case > Control)"
+            title: "Greater (case > control)"
       default: less
     
     - name: sample_size
