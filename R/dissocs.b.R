@@ -132,8 +132,8 @@ dissocsClass <- if (
           )
         )
         
-        dir_note_a <- if (alt_a == "less") "Case < Controls" else "Case > Controls"
-        dir_note_b <- if (alt_b == "less") "Case < Controls" else "Case > Controls"
+        dir_note_a <- if (alt_a == "less") "case < controls" else "case > controls"
+        dir_note_b <- if (alt_b == "less") "case < controls" else "case > controls"
         table_class$setNote(
           "criteria_info",
           paste0("The difference test is two-sided. ",
@@ -160,7 +160,7 @@ dissocsClass <- if (
       # Footnote: Hypothesis and Theoretical Criteria Details
         table_stats$setNote(
           "info",
-          paste0("Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b, "), Difference (Case ≠ Controls). ", 
+          paste0("Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b, "), Difference (case ≠ controls). ", 
                  "Theoretical criteria: Revised Standardised Difference Test (RSDT; Crawford & Garthwaite, 2005)."))
         },
       

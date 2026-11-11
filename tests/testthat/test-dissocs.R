@@ -11,10 +11,10 @@ test_that("classifyDissociation assigns correct profiles", {
   expect_equal(SCJ:::classifyDissociation(p_a = 0.01, p_b = 0.50, p_ab = 0.10)$dissoc_type, "None")
   
   # Single deficit but with significant difference (Classical dissociation)
-  expect_equal(SCJ:::classifyDissociation(p_a = 0.01, p_b = 0.50, p_ab = 0.01)$dissoc_type, "Classical Dissociation")
+  expect_equal(SCJ:::classifyDissociation(p_a = 0.01, p_b = 0.50, p_ab = 0.01)$dissoc_type, "Classical dissociation")
   
   # Double deficits on both tasks with significant differences (Strong dissociation)
-  expect_equal(SCJ:::classifyDissociation(p_a = 0.01, p_b = 0.01, p_ab = 0.01)$dissoc_type, "Strong Dissociation")
+  expect_equal(SCJ:::classifyDissociation(p_a = 0.01, p_b = 0.01, p_ab = 0.01)$dissoc_type, "Strong dissociation")
 })
 
 test_that("dissocs computes deficit and dissociation criteria correctly", {

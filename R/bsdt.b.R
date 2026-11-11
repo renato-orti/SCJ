@@ -128,7 +128,7 @@ bsdtClass <- if (
         table_stats <- self$results$resultsTable
         
         ci_title <- if (isTRUE(unstandardised)) {
-          paste0(credible_level, "% Credible Interval (Unstd. discrepancy)")
+          paste0(credible_level, "% Credible Interval for the Unstandardised Discrepancy")
         } else {
           paste0(credible_level, "% Credible Interval for Z-DCC")
         }

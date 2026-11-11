@@ -38,9 +38,9 @@ classifyDissociation <- function(p_a, p_b, p_ab, alpha = 0.05) {
   
   if (dissoc_bool) {
     if (score_a_bool && score_b_bool) {
-      dissoc_type <- "Strong Dissociation"
+      dissoc_type <- "Strong dissociation"
     } else if (score_a_bool || score_b_bool) {
-      dissoc_type <- "Classical Dissociation"
+      dissoc_type <- "Classical dissociation"
     } else {
       dissoc_type <- "None"
     }

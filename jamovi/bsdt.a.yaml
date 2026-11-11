@@ -91,9 +91,9 @@ options:
         - name: two.sided
           title: Two-sided (A − B in case ≠ controls)
         - name: less
-          title: Task A lower than task B, relative to controls
+          title: Task A lower than Task B, relative to controls
         - name: greater
-          title: Task A higher than task B, relative to controls
+          title: Task A higher than Task B, relative to controls
       default: two.sided
       
     # ---- Advanced Input Data ----

@@ -149,12 +149,12 @@ bdissocsClass <- if (
           )
         )
         
-        dir_note_a <- if (alt_a == "less") "Case < Controls" else "Case > Controls"
-        dir_note_b <- if (alt_b == "less") "Case < Controls" else "Case > Controls"
+        dir_note_a <- if (alt_a == "less") "case < control" else "case > control"
+        dir_note_b <- if (alt_b == "less") "case < control" else "case > control"
         table_class$setNote(
           "criteria_info",
           paste0("The difference test is two-sided. ",
-                 "Deficit criteria evaluated directional (Task A: ", dir_note_a, 
+                 "Deficit tests are one-tailed (Task A: ", dir_note_a, 
                  "; Task B: ", dir_note_b, "; alpha = .05). Theoretical criteria: Crawford & Garthwaite (2005).")
         )
         
@@ -162,7 +162,7 @@ bdissocsClass <- if (
         table_stats <- self$results$resultsTable
         
         ci_title <- if (isTRUE(unstandardised)) {
-          paste0(credible_level, "% Credible Interval (Unstd. discrepancy)")
+          paste0(credible_level, "% Credible Interval for the Unstandardised Discrepancy")
         } else {
           paste0(credible_level, "% Credible Interval for Z-DCC")
         }
@@ -188,13 +188,13 @@ bdissocsClass <- if (
         
         # Footnote: Hypothesis, Theoretical Criteria, and Monte Carlo Simulation Details
         note_text <- paste0(
-          "Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b,"), Difference (Case ≠ Controls). ",  "\n",
+          "Hypothesis: Task A (", dir_note_a, "), Task B (", dir_note_b,"), Difference (case ≠ controls). ",  "\n",
           "Theoretical criteria: Bayesian Standardised Difference Test (BSDT; Crawford & Garthwaite, 2005, 2007). ", "\n",
           "Monte Carlo simulations based on ", format(iter, big.mark = ","), " iterations (random seed: ", seed_val, ")."
         )
         
         if (isTRUE(unstandardised)) {
-          note_text <- paste0(note_text, " Note: The credible interval and p-value use unstandardised scores, while the Z-DCC column does not.")
+          note_text <- paste0(note_text, " The credible interval and p (Task A - B) use unstandardised scores; the Z-DCC column and the Task A/Task B tests do not.")
         }
         
         table_stats$setNote("info", note_text)
