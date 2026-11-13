@@ -149,8 +149,8 @@ bdissocsClass <- if (
           )
         )
         
-        dir_note_a <- if (alt_a == "less") "case < control" else "case > control"
-        dir_note_b <- if (alt_b == "less") "case < control" else "case > control"
+        dir_note_a <- if (alt_a == "less") "case < controls" else "case > controls"
+        dir_note_b <- if (alt_b == "less") "case < controls" else "case > controls"
         table_class$setNote(
           "criteria_info",
           paste0("The difference test is two-sided. ",

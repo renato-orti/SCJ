@@ -76,9 +76,9 @@ options:
       type: List
       options:
           - name: less
-            title: "Less (case < control)"
+            title: "Less (case < controls)"
           - name: greater
-            title: "Greater (case > control)"
+            title: "Greater (case > controls)"
       default: less
 
     - name: alternative_b
@@ -86,9 +86,9 @@ options:
       type: List
       options:
           - name: less
-            title: "Less (case < control)"
+            title: "Less (case < controls)"
           - name: greater
-            title: "Greater (case > control)"
+            title: "Greater (case > controls)"
       default: less
     
     - name: sample_size

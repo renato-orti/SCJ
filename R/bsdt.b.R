@@ -158,7 +158,7 @@ bsdtClass <- if (
         )
         
         if (isTRUE(unstandardised)) {
-          note_text <- paste0(note_text, " Note: The credible interval and p-value use unstandardised scores, while the Z-DCC column does not.")
+          note_text <- paste0(note_text, "The credible interval and p-value use unstandardised scores, while the Z-DCC column does not.")
         }
         
         table_stats$setNote("info", note_text)
