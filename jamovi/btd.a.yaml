@@ -67,11 +67,11 @@ options:
       type: List
       options:
         - name: two.sided
-          title: Two-sided (case score ≠ control)
+          title: Two-sided (case score ≠ controls)
         - name: less
-          title: Case score lower than control
+          title: Case score lower than controls
         - name: greater
-          title: Case score greater than control
+          title: Case score higher than controls
       default: two.sided
       
     # ---- Advanced Input Data ----

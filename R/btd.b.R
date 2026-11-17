@@ -93,9 +93,9 @@ btdClass <- if (
       # Format alternative hypothesis output string
         alt_out <- switch(
           alternative,
-          "two.sided" = "Two-sided (case score ≠ control)",
-          "less"      = "Case score lower than control",
-          "greater"   = "Case score greater than control",
+          "two.sided" = "Two-sided (case score ≠ controls)",
+          "less"      = "Case score lower than controls",
+          "greater"   = "Case score higher than controls",
           alternative
         )
         
