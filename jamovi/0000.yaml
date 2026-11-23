@@ -1,8 +1,10 @@
 ---
 title: Single Case Jamovi (SCJ)
 name: SCJ
-version: 1.1.5
+version: 1.1.6
 jms: '1.0'
+menuIcons:
+  SCJ: icons/SCJ.svg
 authors:
   - Michela Possenti
   - Renato Orti
